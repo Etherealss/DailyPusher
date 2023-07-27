@@ -2,7 +2,7 @@ package cn.seven.dailypusher.common.cron;
 
 import cn.hutool.core.util.IdUtil;
 import cn.seven.dailypusher.Application;
-import cn.seven.dailypusher.common.cron.entity.XxlJobLoginParam;
+import cn.seven.dailypusher.common.cron.remote.param.XxlJobLoginParam;
 import cn.seven.dailypusher.common.cron.remote.XxlJobFeign;
 import feign.Response;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,9 @@
 package cn.seven.dailypusher.common.cron.remote;
 
-import cn.seven.dailypusher.common.cron.config.XxlFeignConfig;
-import cn.seven.dailypusher.common.cron.entity.XxlJobInfo;
-import cn.seven.dailypusher.common.cron.entity.XxlJobLoginParam;
-import cn.seven.dailypusher.common.cron.entity.XxlJobTaskIdParam;
+import cn.seven.dailypusher.common.cron.config.feign.XxlFeignConfig;
+import cn.seven.dailypusher.common.cron.remote.param.XxlJobInfo;
+import cn.seven.dailypusher.common.cron.remote.param.XxlJobLoginParam;
+import cn.seven.dailypusher.common.cron.remote.param.XxlJobTaskIdParam;
 import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.cron.config;
+package cn.seven.dailypusher.common.cron.config.feign;
 
 import feign.codec.Decoder;
 import feign.codec.Encoder;

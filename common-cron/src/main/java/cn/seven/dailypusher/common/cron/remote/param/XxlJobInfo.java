@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.cron.entity;
+package cn.seven.dailypusher.common.cron.remote.param;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

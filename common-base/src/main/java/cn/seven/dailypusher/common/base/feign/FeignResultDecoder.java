@@ -25,6 +25,9 @@ public class FeignResultDecoder implements Decoder {
         if (response.body() == null) {
             throw new DecodeException(response.status(), "没有返回有效的数据", response.request());
         }
+        if (type == Response.class) {
+            return response;
+        }
         //对结果进行转换
         String bodyStr = Util.toString(response.body().asReader(Util.UTF_8));
         Result<?> result;

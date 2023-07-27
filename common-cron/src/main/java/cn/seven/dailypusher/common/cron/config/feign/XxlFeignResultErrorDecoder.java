@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.cron.config;
+package cn.seven.dailypusher.common.cron.config.feign;
 
 
 import cn.seven.dailypusher.common.base.exception.service.ServiceFiegnException;
