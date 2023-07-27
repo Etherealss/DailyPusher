@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.repository;
+package cn.seven.dailypusher.common.database.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

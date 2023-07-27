@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.repository;
+package cn.seven.dailypusher.common.database.repository;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

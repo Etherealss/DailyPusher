@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.repository;
+package cn.seven.dailypusher.common.database.repository;
 
 
 import cn.seven.dailypusher.common.base.enums.BaseEnum;

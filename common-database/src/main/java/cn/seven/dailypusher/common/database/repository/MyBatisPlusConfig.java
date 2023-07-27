@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.repository;
+package cn.seven.dailypusher.common.database.repository;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

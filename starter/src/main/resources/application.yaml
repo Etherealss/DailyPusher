@@ -1,6 +1,6 @@
 # 服务配置
 server:
-  port: 8086
+  port: 8080
 
 app:
   security:
@@ -40,14 +40,14 @@ spring:
 
   # 数据源配置
   datasource:
-    url: jdbc:mysql://119.23.214.198:3306/ask_answer?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/daily_pusher?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: root
-    password: root
+    password: mysql123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     # druid配置
     druid:
-      aop-patterns: com.atguigu.admin.*  # 监控这个包下的所有spring组件
+      aop-patterns: cn.seven.*  # 监控这个包下的所有spring组件
       filters: stat,wall,slf4j  # 开启的功能，需要再配置具体的filter
 
       stat-view-servlet: # 监控页配置
@@ -73,7 +73,20 @@ spring:
   web:
     resources:
       static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public
-
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:8088/xxl-job-admin
+      username: admin
+      password: 123456
+    executor:
+      appname: daily-pusher-job
+      ip:
+      port: 9998
+      address:
+      logpath: /Users/etherealss/WorkFile/logs/xxl-job/jobhandler
+      logretentiondays: 30
+    accessToken: default_token
 # mybatisplus配置
 mybatis-plus:
   type-handlers-package: cn.seven.dailypusher.common.database.repository

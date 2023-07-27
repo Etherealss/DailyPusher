@@ -17,10 +17,10 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-        <!-- 用于xss转义-->
+        <!--openfeign-->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <!-- 配置文件加密 -->
         <dependency>

@@ -8,6 +8,7 @@
         <module>common-database</module>
         <module>common-security</module>
         <module>starter</module>
+        <module>common-cron</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -32,7 +33,7 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <commons-text.version>1.9</commons-text.version>
-
+        <xxl-job.version>2.4.0</xxl-job.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -51,11 +52,27 @@
                 <artifactId>common-security</artifactId>
                 <version>0.0.1</version>
             </dependency>
-            <!-- 用于xss转义-->
             <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-text</artifactId>
-                <version>${commons-text.version}</version>
+                <groupId>cn.seven</groupId>
+                <artifactId>common-cron</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.seven</groupId>
+                <artifactId>starter</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <!-- 任务调度xxl-job -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
+            </dependency>
+            <!--openfeign-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>3.1.1</version>
             </dependency>
             <!-- 配置文件加密 -->
             <dependency>
