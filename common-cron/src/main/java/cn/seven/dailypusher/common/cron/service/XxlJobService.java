@@ -18,7 +18,7 @@ public class XxlJobService {
     private final XxlJobCookieHolder xxlJobCookieHolder;
     private final XxlJobFeign xxlJobFeign;
 
-    public String createJob(XxlJobInfo params) {
+    public Integer createJob(XxlJobInfo params) {
         return xxlJobFeign.insertJob(params, xxlJobCookieHolder.getCookie());
     }
 

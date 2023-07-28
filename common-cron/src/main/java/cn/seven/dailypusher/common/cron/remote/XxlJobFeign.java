@@ -23,7 +23,7 @@ public interface XxlJobFeign {
     Response login(@RequestBody XxlJobLoginParam params);
 
     @PostMapping(value = "/jobinfo/add", consumes = {"application/x-www-form-urlencoded"})
-    String insertJob(@RequestBody XxlJobInfo params, @RequestHeader("Cookie") String cookie);
+    Integer insertJob(@RequestBody XxlJobInfo params, @RequestHeader("Cookie") String cookie);
 
     @PostMapping(value = "/jobinfo/update", consumes = {"application/x-www-form-urlencoded"})
     void updateJob(@RequestBody XxlJobInfo params, @RequestHeader("Cookie") String cookie);

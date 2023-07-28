@@ -22,11 +22,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ScheduleService {
+public class ScheduledJobService {
     private final XxlJobService xxlJobService;
     private final ScheduleXxlConfig scheduleXxlConfig;
 
-    public String createJob(ScheduleParam params) {
+    public Integer createJob(ScheduleParam params) {
         XxlJobInfo xxlJobInfo = this.initInfo();
         BeanUtils.copyProperties(params, xxlJobInfo);
         xxlJobInfo.setScheduleConf(params.getCron());
@@ -55,15 +55,15 @@ public class ScheduleService {
         xxlJobService.updateJob(xxlJobInfo);
     }
 
-    public void deleteJob(Integer taskId) {
-        xxlJobService.deleteJob(taskId);
+    public void deleteJob(Integer jobId) {
+        xxlJobService.deleteJob(jobId);
     }
 
-    public void runJob(Integer taskId) {
-        xxlJobService.runJob(taskId);
+    public void runJob(Integer jobId) {
+        xxlJobService.runJob(jobId);
     }
 
-    public void stopJob(Integer taskId) {
-        xxlJobService.stopJob(taskId);
+    public void stopJob(Integer jobId) {
+        xxlJobService.stopJob(jobId);
     }
 }

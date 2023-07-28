@@ -43,5 +43,4 @@ public class ScheduleParam {
      */
     @NotBlank
     String cron;
-
 }
