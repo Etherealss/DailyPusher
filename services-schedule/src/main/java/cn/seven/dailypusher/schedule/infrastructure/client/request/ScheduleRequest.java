@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.schedule.domain.schedule.param;
+package cn.seven.dailypusher.schedule.infrastructure.client.request;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ScheduleParam {
+public class ScheduleRequest {
 
     /**
      * 任务描述

@@ -17,6 +17,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PROTECTED)
 @Data
 public abstract class IdentifiedEntity extends BaseEntity {
+    /**
+     * 雪花算法ID
+     */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     protected Long id;
 }

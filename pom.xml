@@ -10,9 +10,13 @@
         <module>starter</module>
         <module>common-cron</module>
         <module>services-schedule</module>
+<<<<<<< HEAD
         <module>services-weather</module>
         <module>services-motto</module>
 
+=======
+        <module>services-daily</module>
+>>>>>>> main
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -69,6 +73,11 @@
             <dependency>
                 <groupId>cn.seven</groupId>
                 <artifactId>starter</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.seven</groupId>
+                <artifactId>services-daily</artifactId>
                 <version>0.0.1</version>
             </dependency>
             <!-- 任务调度xxl-job -->

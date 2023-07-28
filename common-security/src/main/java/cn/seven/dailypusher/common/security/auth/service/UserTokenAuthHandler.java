@@ -6,6 +6,7 @@ import cn.seven.dailypusher.common.security.auth.interceptor.HeaderInterceptor;
 import cn.seven.dailypusher.common.security.token.user.UserSecurityContextHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -15,6 +16,7 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 @Component
+@ConditionalOnProperty(value = "app.security.login-check.enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class UserTokenAuthHandler implements IPreAuthHandler {
 

@@ -6,7 +6,7 @@ import cn.seven.dailypusher.common.cron.enums.MisfireStrategyEnum;
 import cn.seven.dailypusher.common.cron.enums.XxlScheduleType;
 import cn.seven.dailypusher.common.cron.remote.param.XxlJobInfo;
 import cn.seven.dailypusher.common.cron.service.XxlJobService;
-import cn.seven.dailypusher.schedule.domain.schedule.param.ScheduleParam;
+import cn.seven.dailypusher.schedule.infrastructure.client.request.ScheduleRequest;
 import cn.seven.dailypusher.schedule.infrastructure.config.ScheduleXxlConfig;
 import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
@@ -26,7 +26,7 @@ public class ScheduledJobService {
     private final XxlJobService xxlJobService;
     private final ScheduleXxlConfig scheduleXxlConfig;
 
-    public Integer createJob(ScheduleParam params) {
+    public Integer createJob(ScheduleRequest params) {
         XxlJobInfo xxlJobInfo = this.initInfo();
         BeanUtils.copyProperties(params, xxlJobInfo);
         xxlJobInfo.setScheduleConf(params.getCron());
@@ -47,7 +47,7 @@ public class ScheduledJobService {
                 .setTriggerStatus(XxlJobConstant.TRIGGER_STATUS_STOP);
     }
 
-    public void updateJob(Integer id, ScheduleParam params) {
+    public void updateJob(Integer id, ScheduleRequest params) {
         XxlJobInfo xxlJobInfo = this.initInfo();
         BeanUtils.copyProperties(params, xxlJobInfo);
         xxlJobInfo.setScheduleConf(params.getCron())

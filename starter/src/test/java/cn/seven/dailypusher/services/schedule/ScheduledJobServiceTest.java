@@ -2,7 +2,7 @@ package cn.seven.dailypusher.services.schedule;
 
 import cn.seven.dailypusher.Application;
 import cn.seven.dailypusher.schedule.domain.schedule.ScheduledJobService;
-import cn.seven.dailypusher.schedule.domain.schedule.param.ScheduleParam;
+import cn.seven.dailypusher.schedule.infrastructure.client.request.ScheduleRequest;
 import cn.seven.dailypusher.schedule.infrastructure.config.ScheduleXxlConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +23,7 @@ class ScheduledJobServiceTest {
 
     @Test
     void testCreateJob() {
-        ScheduleParam param = new ScheduleParam()
+        ScheduleRequest param = new ScheduleRequest()
                 .setAuthor("测试人")
                 .setJobDesc("测试！")
                 .setAlarmEmail("123@qq.com")
@@ -34,7 +34,7 @@ class ScheduledJobServiceTest {
 
     @Test
     void testUpdateJob() {
-        ScheduleParam param = new ScheduleParam()
+        ScheduleRequest param = new ScheduleRequest()
                 .setAuthor("测试人")
                 .setJobDesc("测试 更新！")
                 .setAlarmEmail("123@qq.com")
