@@ -50,6 +50,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.seven</groupId>
+            <artifactId>services-push</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

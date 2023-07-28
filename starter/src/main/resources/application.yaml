@@ -103,6 +103,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
 logging:
   level:
+    com.srb.base.config.OpenFeignConfig: trace
     root: info
     cn:
       seven: debug

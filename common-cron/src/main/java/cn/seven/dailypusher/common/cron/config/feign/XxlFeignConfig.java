@@ -5,13 +5,11 @@ import feign.codec.Encoder;
 import feign.codec.ErrorDecoder;
 import feign.form.FormEncoder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author 王腾坤
  * @date 2023/7/27
  */
-@Configuration
 public class XxlFeignConfig {
     @Bean
     public Encoder xxlFeignFormEncoder() {

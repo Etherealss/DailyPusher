@@ -1,5 +1,6 @@
 package cn.seven.dailypusher.daily.domain.briefing;
 
+import cn.seven.dailypusher.common.base.exception.service.NotFoundException;
 import cn.seven.dailypusher.common.base.pojo.dto.PageDTO;
 import cn.seven.dailypusher.daily.infrastructure.client.response.BriefingResponse;
 import cn.seven.dailypusher.daily.infrastructure.converter.BriefingConverter;
@@ -22,6 +23,14 @@ import java.util.stream.Collectors;
 @Service
 public class BriefingService extends ServiceImpl<BriefingRepository, BriefingEntity> {
     private final BriefingConverter briefingConverter;
+
+    public BriefingResponse getById(Long id) {
+        BriefingEntity briefingEntity = this.lambdaQuery()
+                .eq(BriefingEntity::getId, id)
+                .oneOpt()
+                .orElseThrow(() -> new NotFoundException(BriefingEntity.class, id.toString()));
+        return briefingConverter.toResponse(briefingEntity);
+    }
 
     public PageDTO<BriefingResponse> page(int currentPage, int size) {
         Page<BriefingEntity> page = lambdaQuery()

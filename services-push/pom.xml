@@ -9,7 +9,7 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>services-schedule</artifactId>
+    <artifactId>services-push</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -22,25 +22,6 @@
             <groupId>cn.seven</groupId>
             <artifactId>common-base</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.seven</groupId>
-            <artifactId>common-database</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.seven</groupId>
-            <artifactId>common-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.seven</groupId>
-            <artifactId>common-cron</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.seven</groupId>
-            <artifactId>services-daily</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.seven</groupId>
-            <artifactId>services-push</artifactId>
-        </dependency>
     </dependencies>
+
 </project>

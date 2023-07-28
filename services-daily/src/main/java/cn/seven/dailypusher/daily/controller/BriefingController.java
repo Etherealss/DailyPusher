@@ -46,7 +46,7 @@ public class BriefingController {
 
     @GetMapping("/briefings/{id}")
     public BriefingResponse getBriefing(@PathVariable Long id) {
-        return briefingConverter.toResponse(briefingService.getById(id));
+        return briefingService.getById(id);
     }
 
     @GetMapping("/pages/briefings")
