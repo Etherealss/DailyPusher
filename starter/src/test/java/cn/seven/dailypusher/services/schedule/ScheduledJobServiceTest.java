@@ -20,6 +20,7 @@ class ScheduledJobServiceTest {
     @Autowired
     private ScheduleXxlConfig scheduleXxlConfig;
 
+
     @Test
     void testCreateJob() {
         ScheduleRequest param = new ScheduleRequest()

@@ -19,9 +19,12 @@ public class TestXxlJobHandler extends IJobHandler {
         log.info("自动任务" + this.getClass().getSimpleName() + "执行");
     }
 
+    @Override
     public void init(){
         log.info("init");
     }
+
+    @Override
     public void destroy(){
         log.info("destroy");
     }
