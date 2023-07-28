@@ -21,7 +21,7 @@ public class WeatherService {
 
     private final RestTemplate restTemplate;
 
-    public WeatherResponse getWeatherTest(WeatherRequest weatherRequest) {
+    public WeatherResponse getWeather(WeatherRequest weatherRequest) {
         String url = "https://v0.yiketianqi.com/free/day?appid={appid}&appsecret={appsecret}&unescape=1&city={city}&&cityid={cityid}";
         Map<String,String> map=new HashMap<>();
         map.put("appid",appid);

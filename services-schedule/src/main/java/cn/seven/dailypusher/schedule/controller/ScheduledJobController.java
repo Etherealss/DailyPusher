@@ -28,10 +28,7 @@ public class ScheduledJobController {
     }
 
 
-
-
     @PutMapping("/{jobId}")
-
     public void updateJob(@PathVariable("jobId") Integer jobId,
                           @RequestBody @Validated ScheduleRequest params) {
         scheduledJobService.updateJob(jobId, params);

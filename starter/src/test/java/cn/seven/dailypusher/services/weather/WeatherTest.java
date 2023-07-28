@@ -24,7 +24,10 @@ public class WeatherTest {
         log.info("测试天气接口");
 //        WeatherVo weatherTest = weatherService.getWeatherTest(WeatherConstant.WU_HAN);
 //        log.info("天气接口返回结果：{}", weatherTest.getCity());
-        WeatherResponse weatherResponse = weatherService.getWeatherTest(WeatherRequest.builder().city("武汉").cityId("101200101").build());
+        WeatherRequest weatherRequest = new WeatherRequest()
+                .setCity("武汉")
+                .setCityId("101200101");
+        WeatherResponse weatherResponse = weatherService.getWeather(weatherRequest);
         log.info("天气接口返回结果：{}", weatherResponse.toString());
     }
 }
