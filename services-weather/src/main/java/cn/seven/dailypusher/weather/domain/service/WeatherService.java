@@ -1,7 +1,7 @@
-package cn.seven.dailypusher.weather.service;
+package cn.seven.dailypusher.weather.domain.service;
 
-import cn.seven.dailypusher.weather.dto.constant.WeatherConstant;
-import cn.seven.dailypusher.weather.vo.WeatherVo;
+import cn.seven.dailypusher.weather.infrastructure.client.WeatherRequest;
+import cn.seven.dailypusher.weather.infrastructure.client.WeatherResponse;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +21,13 @@ public class WeatherService {
 
     private final RestTemplate restTemplate;
 
-    public WeatherVo getWeatherTest(WeatherConstant weatherConstant) {
+    public WeatherResponse getWeatherTest(WeatherRequest weatherRequest) {
         String url = "https://v0.yiketianqi.com/free/day?appid={appid}&appsecret={appsecret}&unescape=1&city={city}&&cityid={cityid}";
         Map<String,String> map=new HashMap<>();
         map.put("appid",appid);
         map.put("appsecret",appsecret);
-        map.put("city",weatherConstant.getCityName());
-        map.put("cityid",weatherConstant.getCode());
+        map.put("city", weatherRequest.getCity());
+        map.put("cityid", weatherRequest.getCityId());
         String json = restTemplate.getForObject(url, String.class, map);
         JSONObject jsonObject = JSONObject.parseObject(json);
 //        System.out.println(jsonObject);
@@ -39,10 +39,10 @@ public class WeatherService {
         String tem = jsonObject.getString("tem");
         String air = jsonObject.getString("air");
         String humidity = jsonObject.getString("humidity");
-        WeatherVo weatherVo = WeatherVo.builder().city(city).date(date).week(week).wea(wea).wea_img(weaImg).tem(tem).air(air).humidity(humidity).build();
+        WeatherResponse weatherResponse = WeatherResponse.builder().city(city).date(date).week(week).wea(wea).wea_img(weaImg).tem(tem).air(air).humidity(humidity).build();
 
 
-        return weatherVo;
+        return weatherResponse;
 
     }
 

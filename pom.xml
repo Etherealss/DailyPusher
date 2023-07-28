@@ -13,9 +13,7 @@
         <module>services-weather</module>
         <module>services-motto</module>
 
-
         <module>services-daily</module>
-
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
