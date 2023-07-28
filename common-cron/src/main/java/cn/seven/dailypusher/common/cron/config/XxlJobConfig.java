@@ -1,6 +1,7 @@
 package cn.seven.dailypusher.common.cron.config;
 
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,11 +12,16 @@ import org.springframework.context.annotation.Configuration;
  * @date 2023/7/27
  */
 @Slf4j
+@Getter
 @Configuration
 public class XxlJobConfig {
 
     @Value("${xxl.job.admin.addresses}")
     private String adminAddresses;
+    @Value("${xxl.job.admin.username}")
+    private String username;
+    @Value("${xxl.job.admin.password}")
+    private String password;
     @Value("${xxl.job.accessToken}")
     private String accessToken;
     @Value("${xxl.job.executor.appname}")

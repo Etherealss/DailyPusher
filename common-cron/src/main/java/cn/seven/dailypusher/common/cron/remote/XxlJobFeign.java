@@ -22,18 +22,18 @@ public interface XxlJobFeign {
     @PostMapping(value = "/login", consumes = {"application/x-www-form-urlencoded"})
     Response login(@RequestBody XxlJobLoginParam params);
 
-    @PostMapping("/jobinfo/add")
+    @PostMapping(value = "/jobinfo/add", consumes = {"application/x-www-form-urlencoded"})
     String insertJob(@RequestBody XxlJobInfo params, @RequestHeader("Cookie") String cookie);
 
-    @PostMapping("/jobinfo/update")
+    @PostMapping(value = "/jobinfo/update", consumes = {"application/x-www-form-urlencoded"})
     void updateJob(@RequestBody XxlJobInfo params, @RequestHeader("Cookie") String cookie);
 
-    @PostMapping("/jobinfo/remove")
+    @PostMapping(value = "/jobinfo/remove", consumes = {"application/x-www-form-urlencoded"})
     void deleteJob(@RequestBody XxlJobTaskIdParam idParam, @RequestHeader("Cookie") String cookie);
 
-    @PostMapping("/jobinfo/start")
+    @PostMapping(value = "/jobinfo/start", consumes = {"application/x-www-form-urlencoded"})
     void runJob(@RequestBody XxlJobTaskIdParam idParam, @RequestHeader("Cookie") String cookie);
 
-    @PostMapping("/jobinfo/stop")
+    @PostMapping(value = "/jobinfo/stop", consumes = {"application/x-www-form-urlencoded"})
     void stopJob(@RequestBody XxlJobTaskIdParam idParam, @RequestHeader("Cookie") String cookie);
 }

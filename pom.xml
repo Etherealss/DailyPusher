@@ -9,6 +9,7 @@
         <module>common-security</module>
         <module>starter</module>
         <module>common-cron</module>
+        <module>services-schedule</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -59,6 +60,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.seven</groupId>
+                <artifactId>services-schedule</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.seven</groupId>
                 <artifactId>starter</artifactId>
                 <version>0.0.1</version>
             </dependency>
@@ -85,12 +91,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring-boot.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- Spring Boot Web -->
@@ -98,12 +98,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                        <groupId>org.springframework.boot</groupId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!--测试-->
@@ -112,12 +106,6 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <scope>test</scope>
                 <version>${spring-boot.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <!--jdbc-->
             <dependency>
@@ -136,12 +124,6 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>2.2.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <!--mybatis-plus-->
             <dependency>
@@ -161,20 +143,6 @@
                 <artifactId>velocity-engine-core</artifactId>
                 <version>2.0</version>
             </dependency>
-
-            <!--log4j2-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-log4j2</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <!--异步日志依赖-->
-            <dependency>
-                <groupId>com.lmax</groupId>
-                <artifactId>disruptor</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-
             <!--redis-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

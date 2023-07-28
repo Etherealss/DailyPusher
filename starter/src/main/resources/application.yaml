@@ -1,7 +1,6 @@
 # 服务配置
 server:
   port: 8080
-
 app:
   security:
     xss:
@@ -11,6 +10,9 @@ app:
       expireMs: 864000000 # 测试10天 60 * 60 * 24 * 1000
       headerName: Authentication
       cacheKey: ${spring.application.name}:cache:token:str
+  schedule:
+    xxl:
+      group-id: 2
 spring:
   # 项目配置
   application:
@@ -96,9 +98,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     #    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
-
 logging:
-  config: classpath:log4j2.xml
   level:
     root: info
     cn:

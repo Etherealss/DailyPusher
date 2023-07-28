@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.common.cron;
+package cn.seven.dailypusher.common.cron.handler;
 
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -16,13 +16,13 @@ public class TestXxlJobHandler extends IJobHandler {
     @Override
     @XxlJob(value = "sampleXxlJobHandler", init = "init", destroy = "destroy")
     public void execute() throws Exception {
-        System.out.println("自动任务" + this.getClass().getSimpleName() + "执行");
+        log.info("自动任务" + this.getClass().getSimpleName() + "执行");
     }
 
     public void init(){
-        System.out.println("init");
+        log.info("init");
     }
     public void destroy(){
-        System.out.println("destroy");
+        log.info("destroy");
     }
 }

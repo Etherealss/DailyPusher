@@ -44,4 +44,13 @@ public class XxlJobConstant {
      */
     public static final Integer DELAY_TIME = 10;
 
+    /**
+     * 触发器 启动
+     */
+    public static final int TRIGGER_STATUS_START = 1;
+    /**
+     * 触发器 停止
+     */
+    public static final int TRIGGER_STATUS_STOP = 0;
+
 }
