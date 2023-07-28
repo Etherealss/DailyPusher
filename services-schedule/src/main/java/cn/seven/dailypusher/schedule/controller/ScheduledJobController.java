@@ -2,7 +2,7 @@ package cn.seven.dailypusher.schedule.controller;
 
 import cn.seven.dailypusher.common.base.web.ResponseAdvice;
 import cn.seven.dailypusher.schedule.domain.schedule.ScheduledJobService;
-import cn.seven.dailypusher.schedule.domain.schedule.param.ScheduleParam;
+import cn.seven.dailypusher.schedule.infrastructure.client.request.ScheduleRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -22,13 +22,13 @@ public class ScheduledJobController {
     private final ScheduledJobService scheduledJobService;
 
     @PostMapping
-    public Integer createJob(@RequestBody @Validated ScheduleParam param) {
+    public Integer createJob(@RequestBody @Validated ScheduleRequest param) {
         return scheduledJobService.createJob(param);
     }
 
-    @DeleteMapping("/{jobId}")
+    @PutMapping("/{jobId}")
     public void updateJob(@PathVariable("jobId") Integer jobId,
-                          @RequestBody @Validated ScheduleParam params) {
+                          @RequestBody @Validated ScheduleRequest params) {
         scheduledJobService.updateJob(jobId, params);
     }
 
@@ -42,7 +42,7 @@ public class ScheduledJobController {
         scheduledJobService.runJob(jobId);
     }
 
-    @PostMapping("/{jobId}/actions/stop")
+    @DeleteMapping("/{jobId}/actions/stop")
     public void stopJob(@PathVariable("jobId") Integer jobId) {
         scheduledJobService.stopJob(jobId);
     }

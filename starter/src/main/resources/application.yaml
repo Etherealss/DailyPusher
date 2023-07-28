@@ -1,8 +1,11 @@
 # 服务配置
 server:
   port: 8080
+
 app:
   security:
+    login-check:
+      enabled: false # 登录验证：false 不开启
     xss:
       enabled: false
   token:

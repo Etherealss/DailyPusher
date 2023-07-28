@@ -43,6 +43,10 @@
             <artifactId>services-schedule</artifactId>
         </dependency>
         <dependency>
+            <groupId>cn.seven</groupId>
+            <artifactId>services-daily</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
