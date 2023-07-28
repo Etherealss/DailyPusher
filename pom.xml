@@ -10,6 +10,9 @@
         <module>starter</module>
         <module>common-cron</module>
         <module>services-schedule</module>
+        <module>services-weather</module>
+        <module>services-motto</module>
+
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

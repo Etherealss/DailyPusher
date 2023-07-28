@@ -5,6 +5,7 @@ import cn.seven.dailypusher.schedule.domain.schedule.ScheduledJobService;
 import cn.seven.dailypusher.schedule.domain.schedule.param.ScheduleParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class ScheduledJobController {
         return scheduledJobService.createJob(param);
     }
 
-    @DeleteMapping("/{jobId}")
+    @PostMapping("/{jobId}")
     public void updateJob(@PathVariable("jobId") Integer jobId,
                           @RequestBody @Validated ScheduleParam params) {
         scheduledJobService.updateJob(jobId, params);
