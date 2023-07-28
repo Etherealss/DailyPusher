@@ -22,16 +22,16 @@ public class ScheduledJobController {
 
     private final ScheduledJobService scheduledJobService;
 
-    @PostMapping
+    @PostMapping("/{jobId}")
     public Integer createJob(@RequestBody @Validated ScheduleRequest param) {
         return scheduledJobService.createJob(param);
     }
 
-<<<<<<< HEAD
-    @PostMapping("/{jobId}")
-=======
+
+
+
     @PutMapping("/{jobId}")
->>>>>>> main
+
     public void updateJob(@PathVariable("jobId") Integer jobId,
                           @RequestBody @Validated ScheduleRequest params) {
         scheduledJobService.updateJob(jobId, params);

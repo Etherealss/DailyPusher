@@ -1,17 +1,12 @@
-package cn.seven.dailypusher.motto.service;
+package cn.seven.dailypusher.motto.domain.service;
 
 
 
 
-import cn.seven.dailypusher.motto.vo.MottoVo;
-import com.alibaba.fastjson.JSONArray;
+import cn.seven.dailypusher.motto.infrastructure.client.MottoResponse;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,7 +18,7 @@ public class MottoService {
 
     private final RestTemplate restTemplate;
 
-    public MottoVo getMotto() {
+    public MottoResponse getMotto() {
 
         String url ="https://api.xygeng.cn/one";
 
@@ -33,7 +28,7 @@ public class MottoService {
         JSONObject data = jsonObject.getJSONObject("data");
 //        System.out.println(data);
 
-        return MottoVo.builder().content(data.getString("content")).origin(data.getString("origin")).tag(data.getString("tag")).build();
+        return MottoResponse.builder().content(data.getString("content")).origin(data.getString("origin")).tag(data.getString("tag")).build();
 
     }
 
