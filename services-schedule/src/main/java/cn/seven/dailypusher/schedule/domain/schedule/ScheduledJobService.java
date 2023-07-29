@@ -1,5 +1,6 @@
 package cn.seven.dailypusher.schedule.domain.schedule;
 
+import cn.seven.dailypusher.common.base.utils.JsonUtil;
 import cn.seven.dailypusher.common.cron.constants.XxlJobConstant;
 import cn.seven.dailypusher.common.cron.enums.ExecutorRouteStrategyEnum;
 import cn.seven.dailypusher.common.cron.enums.MisfireStrategyEnum;
@@ -27,9 +28,12 @@ public class ScheduledJobService {
     private final ScheduleXxlConfig scheduleXxlConfig;
 
     public Integer createJob(ScheduleRequest params) {
-        XxlJobInfo xxlJobInfo = this.initInfo();
-        BeanUtils.copyProperties(params, xxlJobInfo);
-        xxlJobInfo.setScheduleConf(params.getCron());
+        XxlJobInfo xxlJobInfo = this.initInfo()
+                .setJobDesc(params.getJobDesc())
+                .setAuthor(params.getAuthor())
+                .setScheduleConf(params.getCron())
+                .setExecutorHandler(params.getExecutorHandlerName())
+                .setExecutorParam(JsonUtil.toJsonString(params.getExecutorParam()));
         return xxlJobService.createJob(xxlJobInfo);
     }
 
@@ -38,7 +42,6 @@ public class ScheduledJobService {
                 .setJobGroup(scheduleXxlConfig.getGroupId())
                 .setScheduleType(XxlScheduleType.CRON.name())
                 .setMisfireStrategy(MisfireStrategyEnum.DO_NOTHING.name())
-                .setExecutorHandler(ScheduledPushHandler.HANDLER_NAME)
                 .setExecutorRouteStrategy(ExecutorRouteStrategyEnum.FIRST.name())
                 .setExecutorBlockStrategy(ExecutorBlockStrategyEnum.SERIAL_EXECUTION.name())
                 .setExecutorTimeout(XxlJobConstant.TIME_OUT)
@@ -47,11 +50,11 @@ public class ScheduledJobService {
                 .setTriggerStatus(XxlJobConstant.TRIGGER_STATUS_STOP);
     }
 
-    public void updateJob(Integer id, ScheduleRequest params) {
+    public void updateJob(Integer jobId, ScheduleRequest params) {
         XxlJobInfo xxlJobInfo = this.initInfo();
         BeanUtils.copyProperties(params, xxlJobInfo);
         xxlJobInfo.setScheduleConf(params.getCron())
-                .setId(id);
+                .setId(jobId);
         xxlJobService.updateJob(xxlJobInfo);
     }
 

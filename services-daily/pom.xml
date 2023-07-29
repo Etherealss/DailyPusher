@@ -26,6 +26,18 @@
             <groupId>cn.seven</groupId>
             <artifactId>common-database</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.seven</groupId>
+            <artifactId>services-push</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.seven</groupId>
+            <artifactId>services-motto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.seven</groupId>
+            <artifactId>services-weather</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

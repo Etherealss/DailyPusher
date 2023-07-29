@@ -2,6 +2,7 @@ package cn.seven.dailypusher.schedule.domain.schedule;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
 /**
@@ -9,8 +10,8 @@ import lombok.experimental.FieldDefaults;
  * @date 2023/7/28
  */
 @Data
+@Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JobExecuteParam {
-    String contentType;
+public class ScheduledJobExecutorParam {
     Long contentId;
 }
