@@ -19,11 +19,11 @@ public enum ScheduleType implements BaseEnum {
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public int getCode() {
-        return 0;
+        return code;
     }
 }

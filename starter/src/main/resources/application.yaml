@@ -6,8 +6,6 @@ app:
   security:
     login-check:
       enabled: false # 登录验证：false 不开启
-    xss:
-      enabled: false
   token:
     user:
       expireMs: 864000000 # 测试10天 60 * 60 * 24 * 1000

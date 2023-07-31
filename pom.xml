@@ -15,6 +15,7 @@
 
         <module>services-daily</module>
         <module>services-push</module>
+        <module>services-user</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -91,6 +92,11 @@
             <dependency>
                 <groupId>cn.seven</groupId>
                 <artifactId>services-weather</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.seven</groupId>
+                <artifactId>services-user</artifactId>
                 <version>0.0.1</version>
             </dependency>
             <!-- 任务调度xxl-job -->
