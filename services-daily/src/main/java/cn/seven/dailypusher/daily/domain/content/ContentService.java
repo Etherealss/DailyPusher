@@ -1,8 +1,10 @@
 package cn.seven.dailypusher.daily.domain.content;
 
+import cn.seven.dailypusher.common.base.enums.ScheduleType;
 import cn.seven.dailypusher.common.base.exception.service.NotFoundException;
 import cn.seven.dailypusher.common.base.pojo.dto.PageDTO;
 import cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleService;
+import cn.seven.dailypusher.daily.infrastructure.client.request.ContentRequest;
 import cn.seven.dailypusher.daily.infrastructure.client.request.ContentScheduleRequest;
 import cn.seven.dailypusher.daily.infrastructure.client.response.ContentResponse;
 import cn.seven.dailypusher.daily.infrastructure.client.response.ContentScheduleResponse;
@@ -12,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,26 +31,57 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
     private final ContentConverter contentConverter;
     private final ContentScheduleService contentScheduleService;
 
+    @Transactional(rollbackFor = Exception.class)
+    public Long create(ContentRequest contentRequest) {
+        ContentEntity entity = contentConverter.toEntity(contentRequest);
+        this.save(entity);
+        Long contentId = entity.getId();
+        if (contentRequest.getScheduleType() == ScheduleType.NO_SCHEDULE) {
+            return contentId;
+        }
+        // 创建定时任务
+        ContentScheduleRequest contentScheduleRequest = contentConverter.toScheduleRequest(contentRequest);
+        contentScheduleRequest.setJobDesc(contentRequest.getContentName());
+        contentScheduleService.createJob(contentId, contentScheduleRequest);
+        return contentId;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void update(Long contentId, ContentRequest contentRequest) {
+        ContentEntity entity = contentConverter.toEntity(contentRequest);
+        entity.setId(contentId);
+
+        if (contentRequest.getScheduleType() != null) {
+            ContentScheduleRequest contentScheduleRequest = contentConverter.toScheduleRequest(contentRequest);
+            contentScheduleRequest.setJobDesc(contentRequest.getContentName());
+            contentScheduleService.updateJob(contentId, contentScheduleRequest);
+        }
+    }
+
     public ContentResponse getById(Long id) {
         ContentEntity contentEntity = this.lambdaQuery()
                 .eq(ContentEntity::getId, id)
                 .oneOpt()
                 .orElseThrow(() -> new NotFoundException(ContentEntity.class, id.toString()));
-        ContentScheduleResponse contentSchedule = contentScheduleService.getByContentId(id);
-        ContentResponse contentResponse = contentConverter.toResponse(contentEntity)
-                .setScheduleType(contentSchedule.getScheduleType())
-                .setScheduledPushTime(contentSchedule.getScheduledPushTime())
-                .setScheduledPushCron(contentSchedule.getScheduledPushCron());
-        return contentResponse;
+        return completeContentScheduleAndResponse(contentEntity);
     }
 
     public PageDTO<ContentResponse> page(int currentPage, int size) {
         Page<ContentEntity> page = lambdaQuery()
                 .page(new Page<>(currentPage, size));
         List<ContentResponse> collect = page.getRecords().stream()
-                .map(contentConverter::toResponse)
+                .map(this::completeContentScheduleAndResponse)
                 .collect(Collectors.toList());
         return new PageDTO<>(collect, page);
+    }
+
+    private ContentResponse completeContentScheduleAndResponse(ContentEntity content) {
+        ContentScheduleResponse contentSchedule = contentScheduleService.getByContentId(content.getId());
+        ContentResponse contentResponse = contentConverter.toResponse(content)
+                .setScheduleType(contentSchedule.getScheduleType())
+                .setScheduledPushTime(contentSchedule.getScheduleParam().getTime())
+                .setScheduledPushCron(contentSchedule.getScheduleParam().getCron());
+        return contentResponse;
     }
 
 
@@ -68,8 +102,10 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
         contentScheduleService.updateJob(contentId, request);
     }
 
-    public void deleteJob(Long contentId) {
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(Long contentId) {
         contentScheduleService.deleteJob(contentId);
+        this.removeById(contentId);
     }
 
     public void runJob(Long contentId) {
@@ -78,5 +114,10 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
 
     public void stopJob(Long contentId) {
         contentScheduleService.stopJob(contentId);
+    }
+
+    public ContentScheduleResponse getContentSchedule(Long contentId) {
+        checkContentExist(contentId);
+        return contentScheduleService.getByContentId(contentId);
     }
 }

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -37,6 +36,5 @@ public class ContentScheduleRequest {
     /**
      * 任务描述
      */
-    @NotBlank
     String jobDesc;
 }

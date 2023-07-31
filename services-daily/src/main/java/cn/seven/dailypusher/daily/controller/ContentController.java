@@ -2,11 +2,9 @@ package cn.seven.dailypusher.daily.controller;
 
 import cn.seven.dailypusher.common.base.pojo.dto.PageDTO;
 import cn.seven.dailypusher.common.base.web.ResponseAdvice;
-import cn.seven.dailypusher.daily.domain.content.ContentEntity;
 import cn.seven.dailypusher.daily.domain.content.ContentService;
 import cn.seven.dailypusher.daily.infrastructure.client.request.ContentRequest;
 import cn.seven.dailypusher.daily.infrastructure.client.response.ContentResponse;
-import cn.seven.dailypusher.daily.infrastructure.converter.ContentConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -24,24 +22,21 @@ import org.springframework.web.bind.annotation.*;
 public class ContentController {
 
     private final ContentService contentService;
-    private final ContentConverter contentConverter;
 
     @PostMapping("/contents")
-    public Long add(@RequestBody @Validated ContentRequest contentRequest) {
-        ContentEntity entity = contentConverter.toEntity(contentRequest);
-        contentService.save(entity);
-        return entity.getId();
+    public Long create(@RequestBody @Validated ContentRequest contentRequest) {
+        return contentService.create(contentRequest);
     }
 
     @PutMapping("/contents/{id}")
     public void update(@PathVariable Long id,
                        @RequestBody @Validated ContentRequest contentRequest) {
-        contentService.updateById(contentConverter.toEntity(contentRequest));
+        contentService.update(id, contentRequest);
     }
 
     @DeleteMapping("/contents/{id}")
     public void delete(@PathVariable Long id) {
-        contentService.removeById(id);
+        contentService.delete(id);
     }
 
     @GetMapping("/contents/{id}")

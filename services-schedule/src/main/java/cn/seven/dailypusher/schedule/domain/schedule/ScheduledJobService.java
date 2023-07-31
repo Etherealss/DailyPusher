@@ -13,7 +13,6 @@ import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,12 +27,7 @@ public class ScheduledJobService {
     private final ScheduleXxlConfig scheduleXxlConfig;
 
     public Integer createJob(ScheduleRequest params) {
-        XxlJobInfo xxlJobInfo = this.initInfo()
-                .setJobDesc(params.getJobDesc())
-                .setAuthor(params.getAuthor())
-                .setScheduleConf(params.getCron())
-                .setExecutorHandler(params.getExecutorHandlerName())
-                .setExecutorParam(JsonUtil.toJsonString(params.getExecutorParam()));
+        XxlJobInfo xxlJobInfo = buildXxlJobInfo(params);
         return xxlJobService.createJob(xxlJobInfo);
     }
 
@@ -46,16 +40,26 @@ public class ScheduledJobService {
                 .setExecutorBlockStrategy(ExecutorBlockStrategyEnum.SERIAL_EXECUTION.name())
                 .setExecutorTimeout(XxlJobConstant.TIME_OUT)
                 .setExecutorFailRetryCount(XxlJobConstant.RETRY_COUNT)
-                .setGlueType(GlueTypeEnum.BEAN.name())
-                .setTriggerStatus(XxlJobConstant.TRIGGER_STATUS_STOP);
+                .setGlueType(GlueTypeEnum.BEAN.name());
     }
 
     public void updateJob(Integer jobId, ScheduleRequest params) {
-        XxlJobInfo xxlJobInfo = this.initInfo();
-        BeanUtils.copyProperties(params, xxlJobInfo);
-        xxlJobInfo.setScheduleConf(params.getCron())
-                .setId(jobId);
+        XxlJobInfo xxlJobInfo = buildXxlJobInfo(params);
+        xxlJobInfo.setId(jobId);
         xxlJobService.updateJob(xxlJobInfo);
+    }
+
+    private XxlJobInfo buildXxlJobInfo(ScheduleRequest params) {
+        int triggerStatus = params.getStartRightNow() ?
+                XxlJobConstant.TRIGGER_STATUS_START : XxlJobConstant.TRIGGER_STATUS_STOP;
+        XxlJobInfo xxlJobInfo = this.initInfo()
+                .setJobDesc(params.getJobDesc())
+                .setAuthor(params.getAuthor())
+                .setScheduleConf(params.getCron())
+                .setExecutorHandler(params.getExecutorHandlerName())
+                .setExecutorParam(JsonUtil.toJsonString(params.getExecutorParam()))
+                .setTriggerStatus(triggerStatus);
+        return xxlJobInfo;
     }
 
     public void deleteJob(Integer jobId) {

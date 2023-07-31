@@ -12,6 +12,7 @@ import lombok.Getter;
 public enum ScheduleType implements BaseEnum {
     SPRING_DAY(0, "按日期执行"),
     XXL_JOB_CRON(1, "按cron表达式执行"),
+    NO_SCHEDULE(2, "不定时执行"),
     ;
 
     private final int code;

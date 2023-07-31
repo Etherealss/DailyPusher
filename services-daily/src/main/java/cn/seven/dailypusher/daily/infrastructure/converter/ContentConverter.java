@@ -3,6 +3,7 @@ package cn.seven.dailypusher.daily.infrastructure.converter;
 import cn.seven.dailypusher.common.base.enums.MapperComponentModel;
 import cn.seven.dailypusher.daily.domain.content.ContentEntity;
 import cn.seven.dailypusher.daily.infrastructure.client.request.ContentRequest;
+import cn.seven.dailypusher.daily.infrastructure.client.request.ContentScheduleRequest;
 import cn.seven.dailypusher.daily.infrastructure.client.response.ContentResponse;
 import org.mapstruct.Mapper;
 
@@ -14,4 +15,5 @@ import org.mapstruct.Mapper;
 public interface ContentConverter {
     ContentEntity toEntity(ContentRequest contentRequest);
     ContentResponse toResponse(ContentEntity entity);
+    ContentScheduleRequest toScheduleRequest(ContentRequest request);
 }

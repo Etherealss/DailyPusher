@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 /**
  * @author 王腾坤
  * @date 2023/7/31
@@ -15,5 +17,5 @@ import lombok.experimental.FieldDefaults;
 public class ContentScheduleParam {
     String cron;
     Integer xxlJobId;
-    String time;
+    Date time;
 }

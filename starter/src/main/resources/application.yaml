@@ -96,13 +96,11 @@ mybatis-plus:
   type-enums-package: cn.seven.dailypusher.**.enums
   mapper-locations: classpath*:mapper/*.xml
   configuration: # 指定mybatis全局配置文件中的相关配置项
-
     map-underscore-to-camel-case: true
-    #    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
-    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
 logging:
   level:
     com.srb.base.config.OpenFeignConfig: trace
+    cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleService: trace
     root: info
     cn:
       seven: debug

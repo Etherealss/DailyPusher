@@ -36,4 +36,9 @@ public class ScheduleRequest {
      * 执行时附带的参数
      */
     ScheduledJobExecutorParam executorParam;
+
+    /**
+     * 是否立即执行
+     */
+    Boolean startRightNow;
 }

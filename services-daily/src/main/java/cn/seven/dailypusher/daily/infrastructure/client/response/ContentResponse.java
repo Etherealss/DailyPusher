@@ -22,6 +22,11 @@ public class ContentResponse {
     Date modifyTime;
 
     /**
+     * 内容名称
+     */
+    String contentName;
+
+    /**
      * 项目ID
      */
     Long projectId;

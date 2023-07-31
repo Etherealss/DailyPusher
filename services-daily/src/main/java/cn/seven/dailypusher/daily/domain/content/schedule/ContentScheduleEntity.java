@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
  * @author 王腾坤
  * @date 2023/7/29
  */
-@TableName("content_schedule")
+@TableName(value = "content_schedule", autoResultMap = true)
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)

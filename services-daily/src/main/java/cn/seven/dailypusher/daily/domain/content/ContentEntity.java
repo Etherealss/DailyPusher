@@ -24,6 +24,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContentEntity extends IdentifiedEntity {
+
+    /**
+     * 内容名称
+     */
+    @TableField(value = "content_name")
+    String contentName;
+
     /**
      * 项目ID
      */

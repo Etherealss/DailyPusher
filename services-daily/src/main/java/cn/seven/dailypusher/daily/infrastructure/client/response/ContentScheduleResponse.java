@@ -1,11 +1,10 @@
 package cn.seven.dailypusher.daily.infrastructure.client.response;
 
 import cn.seven.dailypusher.common.base.enums.ScheduleType;
+import cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleParam;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Date;
 
 /**
  * @author 王腾坤
@@ -18,9 +17,5 @@ public class ContentScheduleResponse {
 
     ScheduleType scheduleType;
 
-    Date scheduledPushTime;
-
-    String scheduledPushCron;
-
-    String jobId;
+    ContentScheduleParam scheduleParam;
 }
