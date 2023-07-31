@@ -4,11 +4,10 @@ import cn.seven.dailypusher.common.base.enums.ScheduleType;
 import cn.seven.dailypusher.common.base.pojo.entity.IdentifiedEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Date;
 
 /**
  * @author 王腾坤
@@ -30,14 +29,8 @@ public class ContentScheduleEntity extends IdentifiedEntity {
     @TableField("schedule_type")
     ScheduleType scheduleType;
 
-    @TableField("scheduled_push_time")
-    Date scheduledPushTime;
-
-    @TableField("scheduled_push_cron")
-    String scheduledPushCron;
-
-    @TableField("job_id")
-    String jobId;
+    @TableField(value = "schedule_param", typeHandler = JacksonTypeHandler.class)
+    ContentScheduleParam scheduleParam;
 
     // TODO 定时任务运行状态
 }

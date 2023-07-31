@@ -37,13 +37,15 @@ public class ContentScheduleService extends ServiceImpl<ContentScheduleRepositor
 
     @Transactional(rollbackFor = Exception.class)
     public void createJob(Long contentId, ContentScheduleRequest request) {
-        Integer jobId = null;
+        ContentScheduleParam contentScheduleParam = new ContentScheduleParam();
         if (request.getScheduleType() == ScheduleType.XXL_JOB_CRON) {
             if (!StringUtils.hasText(request.getScheduledPushCron())) {
                 throw new ParamErrorException("cron表达式不能为空");
             }
             ScheduleRequest scheduleRequest = buildScheduleRequest(contentId, request);
-            jobId = scheduledJobService.createJob(scheduleRequest);
+            Integer jobId = scheduledJobService.createJob(scheduleRequest);
+            contentScheduleParam.setCron(request.getScheduledPushCron());
+            contentScheduleParam.setXxlJobId(jobId);
         } else if (request.getScheduleType() == ScheduleType.SPRING_DAY) {
             if (request.getScheduledPushTime() == null) {
                 throw new ParamErrorException("ScheduledPushTime不能为空");
@@ -51,8 +53,8 @@ public class ContentScheduleService extends ServiceImpl<ContentScheduleRepositor
         } else {
             throw new ParamErrorException("不支持的ScheduleType");
         }
-        ContentScheduleEntity entity = contentScheduleConverter.toEntity(request)
-                .setJobId(String.valueOf(jobId));
+        ContentScheduleEntity entity = contentScheduleConverter.toEntity(request);
+        entity.setScheduleParam(contentScheduleParam);
         this.save(entity);
     }
 
@@ -79,33 +81,37 @@ public class ContentScheduleService extends ServiceImpl<ContentScheduleRepositor
         if (needCacelOldJob(oldEntity.getScheduleType(), request.getScheduleType())) {
             doCacelOldJob(oldEntity);
         }
-        String jobId = createOrUpdateNewJob(request, oldEntity);
-        ContentScheduleEntity updatedEntity = contentScheduleConverter.toEntity(request)
-                .setJobId(jobId);
+        ContentScheduleParam contentScheduleParam = createOrUpdateNewJob(request, oldEntity);
+        ContentScheduleEntity updatedEntity = contentScheduleConverter.toEntity(request);
         updatedEntity.setId(contentScheduleId);
+        updatedEntity.setScheduleParam(contentScheduleParam);
         this.save(updatedEntity);
     }
 
-    private String createOrUpdateNewJob(ContentScheduleRequest request, ContentScheduleEntity oldContentSchedule) {
+    private ContentScheduleParam createOrUpdateNewJob(ContentScheduleRequest request, ContentScheduleEntity oldContentSchedule) {
         Long contentId = oldContentSchedule.getContentId();
-
+        ContentScheduleParam contentScheduleParam = new ContentScheduleParam();
         switch (request.getScheduleType()) {
             case SPRING_DAY:
                 // TODO Spring定时任务
-                return null;
+                break;
             case XXL_JOB_CRON:
                 ScheduleRequest params = buildScheduleRequest(contentId, request);
                 // 如果取消了旧的定时任务，那么就要新建任务；否则更新就好
+                Integer jobId;
                 if (needCacelOldJob(oldContentSchedule.getScheduleType(), request.getScheduleType())) {
-                    Integer jobId = scheduledJobService.createJob(params);
-                    return String.valueOf(jobId);
+                    jobId = scheduledJobService.createJob(params);
                 } else {
-                    scheduledJobService.updateJob(Integer.valueOf(oldContentSchedule.getJobId()), params);
-                    return oldContentSchedule.getJobId();
+                    jobId = oldContentSchedule.getScheduleParam().getXxlJobId();
+                    scheduledJobService.updateJob(jobId, params);
                 }
+                contentScheduleParam.setXxlJobId(jobId);
+                contentScheduleParam.setCron(request.getScheduledPushCron());
+                break;
             default:
                 throw new ParamErrorException("不支持的ScheduleType");
         }
+        return contentScheduleParam;
     }
 
     private void doCacelOldJob(ContentScheduleEntity entity) {
@@ -114,7 +120,7 @@ public class ContentScheduleService extends ServiceImpl<ContentScheduleRepositor
                 // TODO Spring定时任务
                 break;
             case XXL_JOB_CRON:
-                scheduledJobService.deleteJob(Integer.valueOf(entity.getJobId()));
+                scheduledJobService.deleteJob(entity.getScheduleParam().getXxlJobId());
                 break;
             default:
                 throw new ParamErrorException("不支持的ScheduleType");
@@ -127,32 +133,32 @@ public class ContentScheduleService extends ServiceImpl<ContentScheduleRepositor
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteJob(Long contentId) {
-        String jobId = this.getJobIdByContentId(contentId);
-        scheduledJobService.deleteJob(Integer.valueOf(jobId));
+        Integer jobId = this.getJobIdByContentId(contentId);
+        scheduledJobService.deleteJob(jobId);
         // TODO Spring定时任务
 
         this.lambdaUpdate()
-                .eq(ContentScheduleEntity::getJobId, jobId)
+                .eq(ContentScheduleEntity::getContentId, contentId)
                 .remove();
     }
 
     public void runJob(Long contentId) {
-        String jobId = this.getJobIdByContentId(contentId);
-        scheduledJobService.runJob(Integer.valueOf(jobId));
+        Integer jobId = this.getJobIdByContentId(contentId);
+        scheduledJobService.runJob(jobId);
         // TODO Spring定时任务
     }
 
     public void stopJob(Long contentId) {
-        String jobId = this.getJobIdByContentId(contentId);
-        scheduledJobService.stopJob(Integer.valueOf(jobId));
+        Integer jobId = this.getJobIdByContentId(contentId);
+        scheduledJobService.stopJob(jobId);
         // TODO Spring定时任务
     }
 
-    private String getJobIdByContentId(Long contentId) {
+    private Integer getJobIdByContentId(Long contentId) {
         ContentScheduleEntity entity = this.lambdaQuery()
                 .eq(ContentScheduleEntity::getContentId, contentId)
                 .oneOpt()
                 .orElseThrow(() -> new NotFoundException(ContentScheduleEntity.class, contentId.toString()));
-        return entity.getJobId();
+        return entity.getScheduleParam().getXxlJobId();
     }
 }
