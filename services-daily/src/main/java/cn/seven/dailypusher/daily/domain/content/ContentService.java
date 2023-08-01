@@ -1,6 +1,5 @@
 package cn.seven.dailypusher.daily.domain.content;
 
-import cn.seven.dailypusher.common.base.enums.ScheduleType;
 import cn.seven.dailypusher.common.base.exception.service.NotFoundException;
 import cn.seven.dailypusher.common.base.pojo.dto.PageDTO;
 import cn.seven.dailypusher.daily.domain.content.arrangement.ContentArrangementService;
@@ -40,9 +39,6 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
         ContentEntity entity = contentConverter.toEntity(contentRequest);
         this.save(entity);
         Long contentId = entity.getId();
-        if (contentRequest.getScheduleType() == ScheduleType.NO_SCHEDULE) {
-            return contentId;
-        }
         // 创建定时任务
         ContentScheduleRequest contentScheduleRequest = contentConverter.toScheduleRequest(contentRequest);
         contentScheduleRequest.setJobDesc(contentRequest.getContentName());
@@ -109,14 +105,6 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
     public void delete(Long contentId) {
         contentScheduleService.deleteJob(contentId);
         this.removeById(contentId);
-    }
-
-    public void runJob(Long contentId) {
-        contentScheduleService.runJob(contentId);
-    }
-
-    public void stopJob(Long contentId) {
-        contentScheduleService.stopJob(contentId);
     }
 
     public ContentScheduleResponse getContentSchedule(Long contentId) {

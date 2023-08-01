@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.schedule.domain.schedule;
+package cn.seven.dailypusher.schedule.domain.schedule.xxljob;
 
 import cn.seven.dailypusher.common.base.utils.JsonUtil;
 import cn.seven.dailypusher.common.cron.constants.XxlJobConstant;
@@ -7,7 +7,7 @@ import cn.seven.dailypusher.common.cron.enums.MisfireStrategyEnum;
 import cn.seven.dailypusher.common.cron.enums.XxlScheduleType;
 import cn.seven.dailypusher.common.cron.remote.param.XxlJobInfo;
 import cn.seven.dailypusher.common.cron.service.XxlJobService;
-import cn.seven.dailypusher.schedule.infrastructure.client.request.ScheduleRequest;
+import cn.seven.dailypusher.schedule.infrastructure.client.request.XxlJobScheduleRequest;
 import cn.seven.dailypusher.schedule.infrastructure.config.ScheduleXxlConfig;
 import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
@@ -22,11 +22,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ScheduledJobService {
+public class XxlJobScheduleService {
     private final XxlJobService xxlJobService;
     private final ScheduleXxlConfig scheduleXxlConfig;
 
-    public Integer createJob(ScheduleRequest params) {
+    public Integer createJob(XxlJobScheduleRequest params) {
         XxlJobInfo xxlJobInfo = buildXxlJobInfo(params);
         return xxlJobService.createJob(xxlJobInfo);
     }
@@ -43,13 +43,13 @@ public class ScheduledJobService {
                 .setGlueType(GlueTypeEnum.BEAN.name());
     }
 
-    public void updateJob(Integer jobId, ScheduleRequest params) {
+    public void updateJob(Integer jobId, XxlJobScheduleRequest params) {
         XxlJobInfo xxlJobInfo = buildXxlJobInfo(params);
         xxlJobInfo.setId(jobId);
         xxlJobService.updateJob(xxlJobInfo);
     }
 
-    private XxlJobInfo buildXxlJobInfo(ScheduleRequest params) {
+    private XxlJobInfo buildXxlJobInfo(XxlJobScheduleRequest params) {
         int triggerStatus = params.getStartRightNow() ?
                 XxlJobConstant.TRIGGER_STATUS_START : XxlJobConstant.TRIGGER_STATUS_STOP;
         XxlJobInfo xxlJobInfo = this.initInfo()

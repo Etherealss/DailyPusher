@@ -1,4 +1,4 @@
-package cn.seven.dailypusher.daily.domain.content.schedule;
+package cn.seven.dailypusher.daily.domain.content.schedule.xxljob;
 
 import cn.seven.dailypusher.common.base.utils.JsonUtil;
 import cn.seven.dailypusher.daily.infrastructure.event.PushContentEvent;
@@ -19,14 +19,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class ScheduledPushHandler extends IJobHandler {
+public class XxlJobPushHandler extends IJobHandler {
 
     public static final String HANDLER_NAME = "scheduledPushHanlder";
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
-    @XxlJob(value = ScheduledPushHandler.HANDLER_NAME)
+    @XxlJob(value = XxlJobPushHandler.HANDLER_NAME)
     public void execute() {
         String jobParam = XxlJobHelper.getJobParam();
         log.info("定时推送接口执行，参数：{}", jobParam);

@@ -2,6 +2,7 @@ package cn.seven.dailypusher.common.base.web;
 
 import cn.seven.dailypusher.common.base.interceptor.ConfigHandlerInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -44,6 +45,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         objectMapper.registerModule(simpleModule);
         // 不返回null值
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        // 出现未定义字段时不报错
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
     }
 
