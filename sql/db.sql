@@ -38,3 +38,23 @@ create table user
     modify_time datetime    not null
 );
 
+create table project
+(
+    id                 int auto_increment
+        primary key,
+    project_name       varchar(255) not null,
+    project_department varchar(255) not null,
+    project_leader     varchar(255) not null,
+    start_date         date         not null,
+    end_date           date         not null,
+    status             int          not null,
+    task_count         int          not null,
+    solve_task_count   int          not null,
+    demand_count       int          not null,
+    solve_demand_count int          not null,
+    bug_count          int          not null,
+    solve_bug_count    int          not null,
+    constraint project_name
+        unique (project_name)
+)
+    charset = utf8;
