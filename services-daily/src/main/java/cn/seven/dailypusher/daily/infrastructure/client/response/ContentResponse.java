@@ -42,6 +42,11 @@ public class ContentResponse {
     Boolean containWeather;
 
     /**
+     * 指定城市获取天气
+     */
+    String cityForWeather;
+
+    /**
      * 是否包含格言
      */
     Boolean containMotto;
