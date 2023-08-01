@@ -45,7 +45,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/daily_pusher?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: root
-    password: mysql123456
+    password: hxk201300716
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     # druid配置
@@ -87,7 +87,7 @@ xxl:
       ip:
       port: 9998
       address:
-      logpath: /Users/etherealss/WorkFile/logs/xxl-job/jobhandler
+      logpath: /Users/huangxiaokun/WorkFile/logs/xxl-job/jobhandler
       logretentiondays: 30
     accessToken: default_token
 # mybatisplus配置
