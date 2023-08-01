@@ -5,6 +5,7 @@ import cn.seven.dailypusher.common.base.exception.BaseException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 
@@ -82,7 +83,7 @@ public class Result<T> implements Serializable {
     public Result(Throwable throwable) {
         this.code = ResultCode.SERVER_ERROR.getCode();
         String message = ResultCode.SERVER_ERROR.getMessage();
-        if (throwable.getMessage().length() > 0) {
+        if (StringUtils.hasText(throwable.getMessage())) {
             message += (": " + throwable.getMessage());
         }
         this.desc = message;

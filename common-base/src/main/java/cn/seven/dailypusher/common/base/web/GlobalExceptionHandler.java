@@ -105,6 +105,7 @@ public class GlobalExceptionHandler {
     /**
      * 包装绑定异常结果
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     private Result<Void> wrapperBindingResult(BindException bindException) {
         BindingResult bindingResult = bindException.getBindingResult();
@@ -126,6 +127,7 @@ public class GlobalExceptionHandler {
     /**
      * 验证异常处理
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public Result<Void> handle(ConstraintViolationException ex, WebRequest request) {
         StringBuilder msg = new StringBuilder();

@@ -26,7 +26,7 @@ public class ContentRequest {
     /**
      * 项目ID
      */
-    @NotNull
+//    @NotNull
     Long projectId;
 
     /**
