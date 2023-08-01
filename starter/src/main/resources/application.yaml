@@ -99,10 +99,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 logging:
   pattern:
-    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(-){faint} %clr([%14.14t]){faint} %clr(%-40.40logger.%13.13M){cyan} %clr(%3.3L) %clr(:){faint} %msg%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr([%10.10t]){faint} %clr(%30.30class.%method){cyan}\\(%file:%line\\) %n%clr([${LOG_LEVEL_PATTERN:%5p}]) %msg%n"
   level:
-    com.srb.base.config.OpenFeignConfig: trace
-    cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleService: trace
     root: info
-    cn:
-      seven: debug
+    com.srb.base.config.OpenFeignConfig: trace
+    cn.seven: trace
