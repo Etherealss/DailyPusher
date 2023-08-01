@@ -98,6 +98,8 @@ mybatis-plus:
   configuration: # 指定mybatis全局配置文件中的相关配置项
     map-underscore-to-camel-case: true
 logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(-){faint} %clr([%14.14t]){faint} %clr(%-40.40logger.%13.13M){cyan} %clr(%3.3L) %clr(:){faint} %msg%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
   level:
     com.srb.base.config.OpenFeignConfig: trace
     cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleService: trace

@@ -50,4 +50,9 @@ public class ContentController {
             @RequestParam(value = "current", defaultValue = "1") int currentPage) {
         return contentService.page(currentPage, size);
     }
+
+    @PostMapping("/contents/{id}/actions/push")
+    public void pushRightNow(@PathVariable Long id){
+        contentService.pushContent(id);
+    }
 }

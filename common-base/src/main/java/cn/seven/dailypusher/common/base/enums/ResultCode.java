@@ -32,20 +32,7 @@ public enum ResultCode {
     USER_TOKEN_MISSING(HttpStatus.UNAUTHORIZED, 40101001, "[用户token缺失]"),
     USER_TOKEN_INVALID(HttpStatus.UNAUTHORIZED, 40101002, "[用户token无效或已过期]"),
     PASSWORD_NOT_MATCH(40001003, "[密码错误]"),
-    USER_UN_REVIEW(HttpStatus.FORBIDDEN, 40301004, "[用户审核未完成]"),
 
-    // --------------- question 02 ---------------
-
-    // --------------- answer 03 ---------------
-    ANSWER_TARGET_NOT_MATCH(40003001, "[回答目标不匹配]"),
-    AGE_NOT_ALLOW(HttpStatus.FORBIDDEN, 40303002, "[年龄段不符合]"),
-    ANSWER_ALREADY_ACCEPTED(40003003, "[回答已被采纳]"),
-
-    // --------------- comment 04 ---------------
-    COMMENT_TARGET_NOT_MATCH(40004001, "[评论目标不匹配]"),
-
-    // --------------- like ---------------
-    // --------------- notification ---------------
     ;
     final HttpStatus httpStatus;
     final int code;

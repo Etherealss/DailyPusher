@@ -14,4 +14,8 @@ public class MottoResponse {
      String content; //格言内容
      String origin; //格言出处
      String tag; //格言标签
+
+     public String buildReport() {
+            return "格言：" + content + "\n" + "出处：" + origin + "\n" + "标签：" + tag;
+     }
 }

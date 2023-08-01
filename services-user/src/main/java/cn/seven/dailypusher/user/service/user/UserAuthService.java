@@ -45,8 +45,7 @@ public class UserAuthService extends ServiceImpl<UserMapper, UserEntity> {
         // 生成Token并保存
         UserTokenCertificate tokenCertificate = new UserTokenCertificate(
                 user.getId(),
-                user.getUsername(),
-                user.getRoles()
+                user.getUsername()
         );
         tokenService.completeTokenAndSave(tokenCertificate);
         return tokenCertificate;

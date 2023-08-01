@@ -29,7 +29,6 @@ public class UserSecurityContextHolder {
         Objects.requireNonNull(userCredential.getUserId(), "Token中不包含UserId");
         Objects.requireNonNull(userCredential.getUsername(), "Token中不包含Username");
         Objects.requireNonNull(userCredential.getToken(), "Token中不包含Token字符串");
-        Objects.requireNonNull(userCredential.getRoles(), "Token中不包含角色");
         USER_CREDENTIALS.set(userCredential);
     }
 

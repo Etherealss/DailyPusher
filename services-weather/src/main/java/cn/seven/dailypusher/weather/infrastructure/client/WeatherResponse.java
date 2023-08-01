@@ -11,20 +11,28 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class WeatherResponse {
-    private String date;//时间
+    String date;//时间
 
-    private String city; //城市名
+    String city; //城市名
 
-    private String week; //星期几
+    String week; //星期几
 
-    private String wea; //天气
+    String wea; //天气
 
-    private String wea_img; //天气图标
+    String wea_img; //天气图标
 
-    private String tem; //气温
+    String tem; //气温
 
-    private String air; //空气质量
+    String air; //空气质量
 
-    private String humidity; // 湿度
+    String humidity; // 湿度
 
+    public String buildReport() {
+        return "【" + city + "天气预报】\n" +
+                "日期：" + date + "\n" +
+                "天气：" + wea + "\n" +
+                "气温：" + tem + "\n" +
+                "空气质量：" + air + "\n" +
+                "湿度：" + humidity;
+    }
 }

@@ -1,14 +1,11 @@
 package cn.seven.dailypusher.user.infrastructure.pojo.entity;
 
 import cn.seven.dailypusher.common.base.pojo.entity.IdentifiedEntity;
-import cn.seven.dailypusher.common.database.repository.List2JsonTypeHandler;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
 
 /**
  * @author wtk
@@ -20,7 +17,7 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "cn/seven/dailypusher/user")
+@TableName(value = "user")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity extends IdentifiedEntity {
 
@@ -29,7 +26,4 @@ public class UserEntity extends IdentifiedEntity {
 
     @TableField(value = "password")
     String password;
-
-    @TableField(value = "roles", typeHandler = List2JsonTypeHandler.class)
-    List<String> roles;
 }

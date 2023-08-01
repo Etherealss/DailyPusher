@@ -69,6 +69,10 @@
             <groupId>cn.seven</groupId>
             <artifactId>services-push</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.seven</groupId>
+            <artifactId>services-user</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,8 +43,7 @@ public class UserService extends ServiceImpl<UserMapper, UserEntity> {
         if (this.checkUsernameExists(request.getUsername())) {
             throw new ExistException(UserEntity.class, request.getUsername());
         }
-        UserEntity userEntity = userConverter.toEntity(request)
-                .setRoles(new ArrayList<>(0));
+        UserEntity userEntity = userConverter.toEntity(request);
         // 密码加密
         userEntity.setPassword(passwordEncryptor.encode(userEntity.getPassword()));
         this.save(userEntity);

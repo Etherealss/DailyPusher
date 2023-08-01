@@ -3,6 +3,8 @@ package cn.seven.dailypusher.daily.domain.content;
 import cn.seven.dailypusher.common.base.enums.ScheduleType;
 import cn.seven.dailypusher.common.base.exception.service.NotFoundException;
 import cn.seven.dailypusher.common.base.pojo.dto.PageDTO;
+import cn.seven.dailypusher.daily.domain.content.arrangement.ContentArrangementService;
+import cn.seven.dailypusher.daily.domain.content.push.ContentPushService;
 import cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleService;
 import cn.seven.dailypusher.daily.infrastructure.client.request.ContentRequest;
 import cn.seven.dailypusher.daily.infrastructure.client.request.ContentScheduleRequest;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 public class ContentService extends ServiceImpl<ContentRepository, ContentEntity> {
     private final ContentConverter contentConverter;
     private final ContentScheduleService contentScheduleService;
+    private final ContentArrangementService contentArrangementService;
+    private final ContentPushService contentPushService;
 
     @Transactional(rollbackFor = Exception.class)
     public Long create(ContentRequest contentRequest) {
@@ -84,7 +88,6 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
         return contentResponse;
     }
 
-
     public void createJob(Long contentId, ContentScheduleRequest request) {
         checkContentExist(contentId);
         contentScheduleService.createJob(contentId, request);
@@ -119,5 +122,12 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
     public ContentScheduleResponse getContentSchedule(Long contentId) {
         checkContentExist(contentId);
         return contentScheduleService.getByContentId(contentId);
+    }
+
+    public void pushContent(Long contentId) {
+        ContentResponse contentResponse = this.getById(contentId);
+        String contentTxt = contentArrangementService.arrangement(contentResponse);
+        log.debug("推送内容：{}。内容文本：{}", contentId, contentTxt);
+        contentPushService.push(contentResponse.getEnterpriseWeChatHookKeys(), contentTxt);
     }
 }

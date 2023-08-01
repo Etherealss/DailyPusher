@@ -4,8 +4,6 @@ import cn.seven.dailypusher.common.security.token.TokenCertificate;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-
 /**
  * @author wtk
  */
@@ -20,9 +18,4 @@ public class UserTokenCertificate extends TokenCertificate {
     Long userId;
 
     String username;
-
-    /**
-     * 身份
-     */
-    List<String> roles;
 }

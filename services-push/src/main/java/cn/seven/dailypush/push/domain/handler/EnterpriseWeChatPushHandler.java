@@ -1,6 +1,6 @@
 package cn.seven.dailypush.push.domain.handler;
 
-import cn.seven.dailypush.push.infrastructure.config.EnterpriseWeChatConfig;
+import cn.seven.dailypush.push.infrastructure.client.request.PushRequest;
 import cn.seven.dailypush.push.infrastructure.remote.EnterpriseWeChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +15,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnterpriseWeChatPushHandler implements IPushHandler {
     private final EnterpriseWeChatService enterpriseWeChatService;
-    private final EnterpriseWeChatConfig enterpriseWeChatConfig;
 
     @Override
-    public void push(String content) {
-        enterpriseWeChatService.send(enterpriseWeChatConfig.getWebhookKey(), content);
+    public void push(PushRequest pushRequest) {
+        for (String targetKey : pushRequest.getTargetKeys()) {
+            enterpriseWeChatService.send(targetKey, pushRequest.getContent());
+        }
     }
 }
