@@ -27,8 +27,7 @@ public class ContentArrangementService {
         builder.append(contentResponse.getBriefing()).append("\n");
         if (contentResponse.getContainWeather()) {
             WeatherRequest weatherRequest = new WeatherRequest()
-                    .setCity("温州")
-                    .setCityId("101210701");
+                    .setCity(contentResponse.getCityForWeather());
             WeatherResponse weatherResponse = weatherService.getWeather(weatherRequest);
             builder.append(weatherResponse.buildReport()).append("\n");
         }

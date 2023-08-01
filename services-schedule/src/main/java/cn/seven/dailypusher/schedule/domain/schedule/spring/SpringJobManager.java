@@ -21,6 +21,7 @@ import java.util.concurrent.ScheduledFuture;
 public class SpringJobManager {
 
     private final Map<Long, ScheduledFuture<?>> runningJobs = new ConcurrentHashMap<>();
+    private final Map<Long, Date> executionTimes = new ConcurrentHashMap<>();
     private final TaskScheduler taskScheduler;
 
     /**
@@ -34,6 +35,7 @@ public class SpringJobManager {
                 new SpringRuunableJob(springJobCallback),
                 executionTime);
         runningJobs.put(jobId, scheduledFuture);
+        executionTimes.put(jobId, executionTime);
     }
 
     /**
@@ -46,9 +48,20 @@ public class SpringJobManager {
         if (scheduledFuture != null) {
             scheduledFuture.cancel(true);
         }
+        executionTimes.remove(jobId);
     }
 
     public void reportJobs() {
-        log.info("当前spring定时任务数量：{}", runningJobs.size());
+        if (executionTimes.isEmpty()) {
+            log.info("当前spring定时任务数量为 0");
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Long, Date> entry : executionTimes.entrySet()) {
+            sb.append("定时任务ID：").append(entry.getKey())
+                    .append(":").append(entry.getValue())
+                    .append("\n");
+        }
+        log.info("当前spring定时任务信息：\n{}", sb.toString());
     }
 }
