@@ -45,18 +45,16 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
     /**
      * 新建项目时要检验入参是否合法
      */
-    @Override
-    public boolean save(ProjectEntity entity) {
-        // 检查项目名是否唯一
+
+    public void check(ProjectEntity entity) {
         if (lambdaQuery().eq(ProjectEntity::getProjectName, entity.getProjectName()).oneOpt().isPresent()) {
             throw new ParamErrorException("项目名已存在");
         }
 
         // 已解决的数量<=总数量
-       if (entity.getSolvedDemandCount()>entity.getDemandCount() || entity.getSolvedBugCount()> entity.getBugCount() || entity.getSolvedTaskCount()> entity.getTaskCount()) {
-               throw new ParamErrorException();
-       }
-        return super.save(entity);
+        if (entity.getSolvedDemandCount()>entity.getDemandCount() || entity.getSolvedBugCount()> entity.getBugCount() || entity.getSolvedTaskCount()> entity.getTaskCount()||entity.getStartDate().after(entity.getEndDate())) {
+            throw new ParamErrorException();
+        }
     }
 
 

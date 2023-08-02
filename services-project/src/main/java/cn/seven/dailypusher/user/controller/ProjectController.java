@@ -33,19 +33,18 @@ public class ProjectController {
     @PostMapping("/projects")
     public Long addProject(@RequestBody @Validated ProjectRequest projectRequest) {
         ProjectEntity projectEntity = projectConverter.toEntity(projectRequest);
-
-            if (projectService.save(projectEntity)) {
-                return projectEntity.getId();
-            }
-
-        // 表示保存失败
-        return -1L;
+        projectService.check(projectEntity);
+        projectService.save(projectEntity);
+        return projectEntity.getId();
 
     }
 
     @PutMapping("/projects/{id}")
-    public void updateProject(@RequestBody @Validated ProjectRequest projectRequest) {
+    public void updateProject(@PathVariable Long id,@RequestBody @Validated ProjectRequest projectRequest) {
         ProjectEntity projectEntity = projectConverter.toEntity(projectRequest);
+        projectService.check(projectEntity);
+        projectEntity.setId(id);
+        log.info("projectEntity: {}", projectEntity);
         projectService.updateById(projectEntity);
     }
 
