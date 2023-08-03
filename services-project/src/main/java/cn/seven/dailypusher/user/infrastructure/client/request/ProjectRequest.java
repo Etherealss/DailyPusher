@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -26,38 +27,38 @@ public class ProjectRequest {
     String projectLeader;
 
     // 项目开始日期
-    @NotBlank
+    @NotNull
     Date startDate;
 
     // 项目截止日期
-    @NotBlank
+    @NotNull
     Date endDate;
 
     // 项目状态 0-未开始 1-进行中 2-已结束
-    @NotBlank
+    @NotNull
     Integer status;
 
     // 项目任务总数
-    @NotBlank
+    @NotNull
     Integer taskCount;
 
     // 已解决任务数
-    @NotBlank
+    @NotNull
     Integer solvedTaskCount;
 
     // 需求总数
-    @NotBlank
+    @NotNull
     Integer demandCount;
 
     // 需求解决数
-    @NotBlank
+    @NotNull
     Integer solvedDemandCount;
 
     // 缺陷总数
-    @NotBlank
+    @NotNull
     Integer bugCount;
 
     // 缺陷解决数
-    @NotBlank
+    @NotNull
     Integer solvedBugCount;
 }
