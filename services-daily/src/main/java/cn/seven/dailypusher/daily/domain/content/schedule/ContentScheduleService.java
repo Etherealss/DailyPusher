@@ -68,7 +68,7 @@ public class ContentScheduleService extends ServiceImpl<ContentScheduleRepositor
         ContentScheduleEntity oldSchedule = getContentScheduleEntityOpt(contentId)
                 .orElseThrow(() -> new NotFoundException(ContentScheduleEntity.class, contentId.toString()));
         if (needCacelOldJob(oldSchedule.getScheduleType(), newScheduleRequest.getScheduleType())) {
-            routeScheduleStategy(newScheduleRequest.getScheduleType()).cacelOldJob(oldSchedule.getScheduleParam());
+            routeScheduleStategy(oldSchedule.getScheduleType()).cacelOldJob(oldSchedule.getScheduleParam());
         }
         if (needCreateNewJob(newScheduleRequest)) {
             ContentScheduleParam contentScheduleParam = routeScheduleStategy(newScheduleRequest.getScheduleType())

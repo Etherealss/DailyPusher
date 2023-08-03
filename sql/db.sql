@@ -57,4 +57,4 @@ create table project
     constraint project_name
         unique (project_name)
 )
-    charset = utf8;
+    charset = utf8mb4_unicode_ci;

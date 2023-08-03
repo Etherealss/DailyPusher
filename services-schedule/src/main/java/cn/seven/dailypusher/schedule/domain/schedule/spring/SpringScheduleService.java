@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 
 /**
@@ -18,25 +19,40 @@ import java.util.Date;
 @Component
 public class SpringScheduleService {
 
-    private final SpringJobManager springJobManager;
     private final Snowflake snowflake = IdUtil.getSnowflake();
+
+    private final SpringJobManager springJobManager;
+    private final SpringJobCache springJobCache;
+
+    @PostConstruct
+    public void initJobs() {
+    }
 
     public Long createAndRunJob(Date executionTime, SpringJobCallback springJobCallback) {
         long jobId = snowflake.nextId();
-        springJobManager.createJob(jobId, executionTime, springJobCallback);
+        springJobCache.setJob(jobId, executionTime);
+        springJobManager.createJob(new SpringJobParam()
+                .setSpringJobCallback(springJobCallback)
+                .setJobId(jobId)
+                .setExecutionTime(executionTime));
         return jobId;
     }
 
     public void updateJob(Long jobId, Date executionTime, SpringJobCallback springJobCallback) {
+        springJobCache.setJob(jobId, executionTime);
         springJobManager.cancelJob(jobId);
-        springJobManager.createJob(jobId, executionTime, springJobCallback);
+        springJobManager.createJob(new SpringJobParam()
+                .setSpringJobCallback(springJobCallback)
+                .setJobId(jobId)
+                .setExecutionTime(executionTime));
     }
 
     public void cancelJob(Long jobId) {
+        springJobCache.removeJob(jobId);
         springJobManager.cancelJob(jobId);
     }
 
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 * * * * ?")
     public void reportJobs() {
         springJobManager.reportJobs();
     }

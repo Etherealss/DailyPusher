@@ -6,6 +6,7 @@ import cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleEntity;
 import cn.seven.dailypusher.daily.domain.content.schedule.ContentScheduleParam;
 import cn.seven.dailypusher.daily.domain.content.schedule.ScheduleStategy;
 import cn.seven.dailypusher.daily.infrastructure.client.request.ContentScheduleRequest;
+import cn.seven.dailypusher.daily.infrastructure.utils.CronUtil;
 import cn.seven.dailypusher.schedule.domain.schedule.ScheduledJobExecutorParam;
 import cn.seven.dailypusher.schedule.domain.schedule.xxljob.XxlJobScheduleService;
 import cn.seven.dailypusher.schedule.infrastructure.client.request.XxlJobScheduleRequest;
@@ -26,13 +27,17 @@ public class XxlJobScheduleStategy implements ScheduleStategy {
 
     @Override
     public ContentScheduleParam createJob(Long contentId, ContentScheduleRequest request) {
-        if (!StringUtils.hasText(request.getScheduledPushCron())) {
-            throw new ParamErrorException("cron表达式不能为空");
+        if (!StringUtils.hasText(request.getScheduledPushDayTime())) {
+            throw new ParamErrorException("ScheduledPushDayTime不能为空");
+        }
+        if (request.getScheduledPushWeekDayPattern() == null) {
+            throw new ParamErrorException("ScheduledPushWeekDayPattern不能为空");
         }
         ContentScheduleParam contentScheduleParam = new ContentScheduleParam();
         XxlJobScheduleRequest xxlJobScheduleRequest = buildScheduleRequest(contentId, request);
         Integer jobId = xxlJobScheduleService.createJob(xxlJobScheduleRequest);
-        contentScheduleParam.setCron(request.getScheduledPushCron());
+        String cron = CronUtil.buildCron(request.getScheduledPushWeekDayPattern(), request.getScheduledPushDayTime());
+        contentScheduleParam.setCron(cron);
         contentScheduleParam.setXxlJobId(jobId);
         return contentScheduleParam;
     }
@@ -63,7 +68,8 @@ public class XxlJobScheduleStategy implements ScheduleStategy {
             xxlJobScheduleService.updateJob(jobId, params);
         }
         contentScheduleParam.setXxlJobId(jobId);
-        contentScheduleParam.setCron(request.getScheduledPushCron());
+        String cron = CronUtil.buildCron(request.getScheduledPushWeekDayPattern(), request.getScheduledPushDayTime());
+        contentScheduleParam.setCron(cron);
         return contentScheduleParam;
     }
 
@@ -74,9 +80,10 @@ public class XxlJobScheduleStategy implements ScheduleStategy {
     private XxlJobScheduleRequest buildScheduleRequest(Long contentId, ContentScheduleRequest request) {
         ScheduledJobExecutorParam executorParam = new ScheduledJobExecutorParam()
                 .setContentId(contentId);
+        String cron = CronUtil.buildCron(request.getScheduledPushWeekDayPattern(), request.getScheduledPushDayTime());
         XxlJobScheduleRequest xxlJobScheduleRequest = new XxlJobScheduleRequest()
                 .setJobDesc(request.getJobDesc())
-                .setCron(request.getScheduledPushCron())
+                .setCron(cron)
                 .setExecutorParam(executorParam)
                 // TOOD 负责人
                 .setAuthor("123")

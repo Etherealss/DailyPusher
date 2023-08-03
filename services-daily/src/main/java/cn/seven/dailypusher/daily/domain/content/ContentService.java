@@ -10,12 +10,14 @@ import cn.seven.dailypusher.daily.infrastructure.client.request.ContentScheduleR
 import cn.seven.dailypusher.daily.infrastructure.client.response.ContentResponse;
 import cn.seven.dailypusher.daily.infrastructure.client.response.ContentScheduleResponse;
 import cn.seven.dailypusher.daily.infrastructure.converter.ContentConverter;
+import cn.seven.dailypusher.daily.infrastructure.utils.CronUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,8 +81,12 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
         ContentScheduleResponse contentSchedule = contentScheduleService.getByContentId(content.getId());
         ContentResponse contentResponse = contentConverter.toResponse(content)
                 .setScheduleType(contentSchedule.getScheduleType())
-                .setScheduledPushTime(contentSchedule.getScheduleParam().getTime())
-                .setScheduledPushCron(contentSchedule.getScheduleParam().getCron());
+                .setScheduledPushDateTime(contentSchedule.getScheduleParam().getTime());
+        String cron = contentSchedule.getScheduleParam().getCron();
+        if (StringUtils.hasText(cron)) {
+            contentResponse.setScheduledPushDayTime(CronUtil.toDayTime(cron));
+            contentResponse.setScheduledPushWeekDayPattern(CronUtil.toWeekDayPattern(cron));
+        }
         return contentResponse;
     }
 

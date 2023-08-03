@@ -1,6 +1,7 @@
 package cn.seven.dailypusher.daily.infrastructure.client.response;
 
 import cn.seven.dailypusher.common.base.enums.ScheduleType;
+import cn.seven.dailypusher.daily.infrastructure.client.request.ContentRequest;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * @see ContentRequest 字段解释
  * @author 王腾坤
  * @date 2023/7/28
  */
@@ -20,54 +22,15 @@ public class ContentResponse {
     Long id;
     Date createTime;
     Date modifyTime;
-
-    /**
-     * 内容名称
-     */
     String contentName;
-
-    /**
-     * 项目ID
-     */
     Long projectId;
-
-    /**
-     * 简报
-     */
     String briefing;
-
-    /**
-     * 是否包含天气
-     */
     Boolean containWeather;
-
-    /**
-     * 指定城市获取天气
-     */
     String cityForWeather;
-
-    /**
-     * 是否包含格言
-     */
     Boolean containMotto;
-
-    /**
-     * 定时类型
-     */
     ScheduleType scheduleType;
-
-    /**
-     * 按日期发送
-     */
-    Date scheduledPushTime;
-
-    /**
-     * 按cron循环执行发送
-     */
-    String scheduledPushCron;
-
-    /**
-     * 企微webhook key
-     */
+    Date scheduledPushDateTime;
+    Integer scheduledPushWeekDayPattern;
+    String scheduledPushDayTime;
     List<String> enterpriseWeChatHookKeys;
 }

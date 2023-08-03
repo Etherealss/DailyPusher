@@ -29,23 +29,23 @@ public class SpringScheduleStategy implements ScheduleStategy {
 
     @Override
     public ContentScheduleParam createJob(final Long contentId, ContentScheduleRequest request) {
-        Date scheduledPushTime = request.getScheduledPushTime();
-        if (scheduledPushTime == null) {
-            throw new ParamErrorException("scheduledPushTime不能为空");
+        Date pushDateTime = request.getScheduledPushDateTime();
+        if (pushDateTime == null) {
+            throw new ParamErrorException("ScheduledPushDateTime不能为空");
         }
-        if (scheduledPushTime.before(new Date())) {
-            throw new ParamErrorException("scheduledPushTime需要是一个将来的时间");
+        if (pushDateTime.before(new Date())) {
+            throw new ParamErrorException("ScheduledPushDateTime需要是一个将来的时间");
         }
         ContentScheduleParam contentScheduleParam = new ContentScheduleParam();
-        Long jobId = springScheduleService.createAndRunJob(scheduledPushTime, getSpringJobCallback(contentId));
-        contentScheduleParam.setCron(request.getScheduledPushCron());
+        Long jobId = springScheduleService.createAndRunJob(pushDateTime, getSpringJobCallback(contentId));
+        contentScheduleParam.setTime(request.getScheduledPushDateTime());
         contentScheduleParam.setSpringJobId(jobId);
         return contentScheduleParam;
     }
 
     private SpringJobCallback getSpringJobCallback(Long contentId) {
         return () -> {
-            log.info("spring定时任务执行");
+            log.info("spring定时任务执行。contentId: {}", contentId);
             applicationEventPublisher.publishEvent(new PushContentEvent(contentId));
         };
     }
@@ -62,24 +62,25 @@ public class SpringScheduleStategy implements ScheduleStategy {
 
     @Override
     public ContentScheduleParam createOrUpdateNewJob(ContentScheduleRequest request, ContentScheduleEntity oldContentSchedule) {
-        Date scheduledPushTime = request.getScheduledPushTime();
-        if (scheduledPushTime == null) {
-            throw new ParamErrorException("scheduledPushTime不能为空");
+        Date pushDateTime = request.getScheduledPushDateTime();
+        if (pushDateTime == null) {
+            throw new ParamErrorException("ScheduledPushDateTime不能为空");
         }
-        if (scheduledPushTime.before(new Date())) {
-            throw new ParamErrorException("scheduledPushTime需要是一个将来的时间");
+        if (pushDateTime.before(new Date())) {
+            throw new ParamErrorException("ScheduledPushDateTime需要是一个将来的时间");
         }
-        if (oldContentSchedule.getScheduleType() == ScheduleType.SPRING_DAY) {
+        Long springJobId = oldContentSchedule.getScheduleParam().getSpringJobId();
+        if (oldContentSchedule.getScheduleType() == ScheduleType.SPRING_DAY
+                && springJobId != null) {
             log.trace("更新spring定时任务");
-            Long springJobId = oldContentSchedule.getScheduleParam().getSpringJobId();
             springScheduleService.updateJob(
                     springJobId,
-                    scheduledPushTime,
+                    pushDateTime,
                     getSpringJobCallback(oldContentSchedule.getContentId())
             );
             return new ContentScheduleParam()
                     .setSpringJobId(springJobId)
-                    .setTime(scheduledPushTime);
+                    .setTime(pushDateTime);
         } else {
             log.trace("创建spring定时任务");
             return createJob(oldContentSchedule.getContentId(), request);

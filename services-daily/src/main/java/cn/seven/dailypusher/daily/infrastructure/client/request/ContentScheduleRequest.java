@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 王腾坤
@@ -18,20 +18,30 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ContentScheduleRequest {
     /**
-     * 定时类型
+     * @see ContentRequest#getScheduleType()
      */
-    @NotNull
     ScheduleType scheduleType;
 
     /**
-     * 按日期发送
+     * @see ContentRequest#getScheduledPushDateTime()
      */
-    Date scheduledPushTime;
+    Date scheduledPushDateTime;
 
     /**
-     * 按cron循环执行发送
+     * @see ContentRequest#getScheduledPushWeekDayPattern()
      */
-    String scheduledPushCron;
+    Integer scheduledPushWeekDayPattern;
+
+    /**
+     * @see ContentRequest#getScheduledPushDayTime()
+     */
+    String scheduledPushDayTime;
+
+
+    /**
+     * @see ContentRequest#getEnterpriseWeChatHookKeys()
+     */
+    List<String> enterpriseWeChatHookKeys;
 
     /**
      * 任务描述
