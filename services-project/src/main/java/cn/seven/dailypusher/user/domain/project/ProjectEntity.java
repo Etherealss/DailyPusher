@@ -1,5 +1,6 @@
 package cn.seven.dailypusher.user.domain.project;
 
+import cn.seven.dailypusher.common.base.pojo.entity.IdentifiedEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,17 +16,15 @@ import java.util.Date;
  */
 @TableName("project")
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectEntity {
+public class ProjectEntity extends IdentifiedEntity {
 
-    // 项目ID 自增
-    @TableId(value = "id", type = IdType.AUTO)
-    Long id;
 
     // 项目名称
     @TableField(value = "project_name")
