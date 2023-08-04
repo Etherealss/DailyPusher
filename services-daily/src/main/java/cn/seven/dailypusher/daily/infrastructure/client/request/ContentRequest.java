@@ -43,7 +43,7 @@ public class ContentRequest {
     /**
      * 天气城市
      */
-    String cityOfWeather;
+    String cityForWeather;
 
     /**
      * 是否包含格言

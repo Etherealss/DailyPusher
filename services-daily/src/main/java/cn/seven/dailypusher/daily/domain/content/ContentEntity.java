@@ -49,6 +49,9 @@ public class ContentEntity extends IdentifiedEntity {
     @TableField(value = "contain_weather")
     Boolean containWeather;
 
+    @TableField(value = "city_for_weather")
+    String cityForWeather;
+
     /**
      * 是否包含格言
      */

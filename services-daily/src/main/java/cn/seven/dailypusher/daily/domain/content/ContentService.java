@@ -52,7 +52,9 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
     public void update(Long contentId, ContentRequest contentRequest) {
         ContentEntity entity = contentConverter.toEntity(contentRequest);
         entity.setId(contentId);
-
+        this.lambdaUpdate()
+                .eq(ContentEntity::getId, contentId)
+                .update(entity);
         if (contentRequest.getScheduleType() != null) {
             ContentScheduleRequest contentScheduleRequest = contentConverter.toScheduleRequest(contentRequest);
             contentScheduleRequest.setJobDesc(contentRequest.getContentName());

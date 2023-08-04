@@ -99,7 +99,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 logging:
   pattern:
-    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr([%10.10t]){faint} %clr(%30.30class.%method){cyan}\\(%file:%line\\) %n%clr([${LOG_LEVEL_PATTERN:%5p}]) %msg%n"
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr([%14.14t]){faint} %clr(%30.30class.%method){cyan}\\(%file:%line\\) %n%clr([${LOG_LEVEL_PATTERN:%5p}]) %msg%n"
   level:
     root: info
     com.srb.base.config.OpenFeignConfig: trace
