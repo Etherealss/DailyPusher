@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,19 +34,15 @@ public class ProjectController {
     @PostMapping("/projects")
     public Long addProject(@RequestBody @Validated ProjectRequest projectRequest) {
         ProjectEntity projectEntity = projectConverter.toEntity(projectRequest);
-        projectService.check(projectEntity);
-        projectService.save(projectEntity);
-        return projectEntity.getId();
+        long id = projectService.create(projectEntity);
+        return id;
 
     }
 
     @PutMapping("/projects/{id}")
     public void updateProject(@PathVariable Long id,@RequestBody @Validated ProjectRequest projectRequest) {
         ProjectEntity projectEntity = projectConverter.toEntity(projectRequest);
-        projectService.check(projectEntity);
-        projectEntity.setId(id);
-        log.info("projectEntity: {}", projectEntity);
-        projectService.updateById(projectEntity);
+        projectService.update(id, projectEntity);
     }
 
     @DeleteMapping("/projects/{id}")

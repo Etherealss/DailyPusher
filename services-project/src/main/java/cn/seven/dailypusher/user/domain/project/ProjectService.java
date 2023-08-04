@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +58,22 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
         }
     }
 
+    // 开启事务
+    @Transactional(rollbackFor = Exception.class)
+    public long create(ProjectEntity entity) {
+//        Long id = entity.getId();
+        check(entity);
+        this.save(entity);
+        return this.lambdaQuery().eq(ProjectEntity::getProjectName, entity.getProjectName()).oneOpt().get().getId();
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void update(Long id, ProjectEntity entity) {
+        check(entity);
+        entity.setId(id);
+        this.lambdaUpdate()
+                .eq(ProjectEntity::getId, id)
+                .update(entity);
+    }
 
 }

@@ -1,3 +1,5 @@
+use daily_pusher;
+
 create table content
 (
     id                           bigint       not null
@@ -40,7 +42,7 @@ create table user
 
 create table project
 (
-    id                 int auto_increment
+    id                           bigint       not null
         primary key,
     project_name       varchar(255) not null,
     project_department varchar(255) not null,
@@ -54,7 +56,10 @@ create table project
     solve_demand_count int          not null,
     bug_count          int          not null,
     solve_bug_count    int          not null,
+    creator     bigint      not null,
+    create_time datetime    not null,
+    modify_time datetime    not null,
     constraint project_name
         unique (project_name)
 )
-    charset = utf8mb4_unicode_ci;
+    collate = utf8mb4_unicode_ci;
