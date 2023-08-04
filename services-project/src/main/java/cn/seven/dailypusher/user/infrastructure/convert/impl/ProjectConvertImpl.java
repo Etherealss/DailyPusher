@@ -30,6 +30,7 @@ public class ProjectConvertImpl implements IProjectConverter {
         projectEntity.setSolvedDemandCount( projectRequest.getSolvedDemandCount() );
         projectEntity.setBugCount( projectRequest.getBugCount() );
         projectEntity.setSolvedBugCount( projectRequest.getSolvedBugCount() );
+        projectEntity.setPhone( projectRequest.getPhone() );
 
         return projectEntity;
     }
@@ -58,6 +59,7 @@ public class ProjectConvertImpl implements IProjectConverter {
         projectResponse.setSolvedDemandCount( entity.getSolvedDemandCount() );
         projectResponse.setBugCount( entity.getBugCount() );
         projectResponse.setSolvedBugCount( entity.getSolvedBugCount() );
+        projectResponse.setPhone( entity.getPhone() );
 
         // 计算并设置交付达成率
         projectResponse.setDeliveryRate(projectResponse.getSolvedTaskCount()/ projectResponse.getTaskCount());

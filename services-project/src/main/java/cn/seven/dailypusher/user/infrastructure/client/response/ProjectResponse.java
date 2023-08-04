@@ -23,6 +23,9 @@ public class ProjectResponse {
     // 项目负责人
     String projectLeader;
 
+    // 负责人手机号
+    String phone;
+
     // 项目开始日期
     String startDate;
 

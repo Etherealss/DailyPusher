@@ -39,6 +39,9 @@ public class ProjectEntity extends IdentifiedEntity {
     @TableField(value = "project_leader")
     String projectLeader;
 
+    @TableField(value = "phone")
+    String phone;
+
     // 项目开始日期
     @TableField(value = "start_date")
     Date startDate;
