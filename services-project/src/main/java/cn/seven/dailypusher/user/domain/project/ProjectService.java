@@ -76,4 +76,11 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
                 .update(entity);
     }
 
+    public String getPhone(Long id) {
+        ProjectEntity projectEntity = this.lambdaQuery()
+                .eq(ProjectEntity::getId, id)
+                .oneOpt()
+                .orElseThrow(() -> new NotFoundException(ProjectEntity.class, id.toString()));
+        return projectEntity.getPhone();
+    }
 }

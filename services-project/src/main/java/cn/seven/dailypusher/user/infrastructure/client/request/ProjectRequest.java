@@ -1,11 +1,13 @@
 package cn.seven.dailypusher.user.infrastructure.client.request;
 
+import cn.seven.dailypusher.user.infrastructure.client.constants.ProjectConstant;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Data
@@ -25,6 +27,11 @@ public class ProjectRequest {
     // 项目负责人
     @NotBlank
     String projectLeader;
+
+    // 负责人手机号
+    @NotBlank
+    @Pattern(regexp = ProjectConstant.REGEX_MOBILE)
+    String phone;
 
     // 项目开始日期
     @NotNull

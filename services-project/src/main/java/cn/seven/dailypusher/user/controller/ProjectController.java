@@ -62,6 +62,11 @@ public class ProjectController {
         return projectService.page(currentPage, size);
     }
 
+    @GetMapping("/projects/{id}/phone")
+    public String getPhone(@PathVariable Long id) {
+        return projectService.getPhone(id);
+    }
+
 
 
 }
