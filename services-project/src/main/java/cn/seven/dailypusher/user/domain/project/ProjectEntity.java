@@ -1,9 +1,8 @@
 package cn.seven.dailypusher.user.domain.project;
 
+import cn.seven.dailypusher.common.base.enums.ProjectStatus;
 import cn.seven.dailypusher.common.base.pojo.entity.IdentifiedEntity;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -52,7 +51,7 @@ public class ProjectEntity extends IdentifiedEntity {
 
     // 项目状态 0-未开始 1-进行中 2-已结束
     @TableField(value = "status")
-    Integer status;
+    ProjectStatus status;
 
     // 项目任务总数
     @TableField(value = "task_count")

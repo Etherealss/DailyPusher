@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity> {
 
     private final IProjectConverter projectConverter;
+
     // 分页查询
     public PageDTO<ProjectResponse> page(int currentPage, int size) {
         log.info("分页查询 currentPage: {}, size: {}", currentPage, size);
@@ -33,27 +34,47 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
     }
 
 
-
     public ProjectResponse getById(Long id) {
-        ProjectEntity contentEntity = this.lambdaQuery()
+        ProjectEntity contentEntity = requireEntity(id);
+        return projectConverter.toResponse(contentEntity);
+    }
+
+    private ProjectEntity requireEntity(Long id) {
+        return this.lambdaQuery()
                 .eq(ProjectEntity::getId, id)
                 .oneOpt()
                 .orElseThrow(() -> new NotFoundException(ProjectEntity.class, id.toString()));
+    }
 
-        return projectConverter.toResponse(contentEntity);
+    public void checkNameDuplicate(ProjectEntity entity) {
+        lambdaQuery()
+                .eq(ProjectEntity::getProjectName, entity.getProjectName())
+                .oneOpt()
+                .ifPresent((e) -> {
+                    throw new ParamErrorException("项目名已存在");
+                });
+    }
+
+    public void checkNameDuplicate4Update(Long id, ProjectEntity entity) {
+        ProjectEntity projectEntity = lambdaQuery()
+                .eq(ProjectEntity::getId, id)
+                .oneOpt()
+                .orElseThrow(() -> new NotFoundException(ProjectEntity.class, id.toString()));
+        // 如果项目名没有改变，就不用检查了
+        if (projectEntity.getProjectName().equals(entity.getProjectName())) {
+            return;
+        }
+        // 否则检查新名字是否重名
+        checkNameDuplicate(entity);
     }
 
     /**
      * 新建项目时要检验入参是否合法
      */
 
-    public void check(ProjectEntity entity) {
-        if (lambdaQuery().eq(ProjectEntity::getProjectName, entity.getProjectName()).oneOpt().isPresent()) {
-            throw new ParamErrorException("项目名已存在");
-        }
-
+    public void checkCount(ProjectEntity entity) {
         // 已解决的数量<=总数量
-        if (entity.getSolvedDemandCount()>entity.getDemandCount() || entity.getSolvedBugCount()> entity.getBugCount() || entity.getSolvedTaskCount()> entity.getTaskCount()||entity.getStartDate().after(entity.getEndDate())) {
+        if (entity.getSolvedDemandCount() > entity.getDemandCount() || entity.getSolvedBugCount() > entity.getBugCount() || entity.getSolvedTaskCount() > entity.getTaskCount() || entity.getStartDate().after(entity.getEndDate())) {
             throw new ParamErrorException();
         }
     }
@@ -62,14 +83,16 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
     @Transactional(rollbackFor = Exception.class)
     public long create(ProjectEntity entity) {
 //        Long id = entity.getId();
-        check(entity);
+        checkNameDuplicate(entity);
+        checkCount(entity);
         this.save(entity);
         return this.lambdaQuery().eq(ProjectEntity::getProjectName, entity.getProjectName()).oneOpt().get().getId();
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void update(Long id, ProjectEntity entity) {
-        check(entity);
+        checkNameDuplicate4Update(id, entity);
+        checkCount(entity);
         entity.setId(id);
         this.lambdaUpdate()
                 .eq(ProjectEntity::getId, id)
@@ -77,10 +100,7 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
     }
 
     public String getPhone(Long id) {
-        ProjectEntity projectEntity = this.lambdaQuery()
-                .eq(ProjectEntity::getId, id)
-                .oneOpt()
-                .orElseThrow(() -> new NotFoundException(ProjectEntity.class, id.toString()));
+        ProjectEntity projectEntity = requireEntity(id);
         return projectEntity.getPhone();
     }
 }

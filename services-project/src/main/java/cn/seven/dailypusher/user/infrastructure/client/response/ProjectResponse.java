@@ -1,9 +1,10 @@
 package cn.seven.dailypusher.user.infrastructure.client.response;
 
+import cn.seven.dailypusher.common.base.enums.ProjectStatus;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Data
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
@@ -12,10 +13,8 @@ public class ProjectResponse {
     // 项目ID
     Long projectId;
 
-
     // 项目名称
     String projectName;
-
 
     // 项目部门
     String projectDepartment;
@@ -27,13 +26,13 @@ public class ProjectResponse {
     String phone;
 
     // 项目开始日期
-    String startDate;
+    Date startDate;
 
     // 项目截止日期
-    String endDate;
+    Date endDate;
 
     // 项目状态 0-未开始 1-进行中 2-已结束
-    Integer status;
+    ProjectStatus status;
 
     // 项目任务总数
     Integer taskCount;

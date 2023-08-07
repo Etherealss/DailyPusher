@@ -2,6 +2,7 @@ package cn.seven.dailypusher.schedule.domain.schedule.spring;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
+import cn.seven.dailypusher.schedule.domain.schedule.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +18,7 @@ import java.util.Date;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class SpringScheduleService {
+public class SpringScheduleService implements ScheduleService {
 
     private final Snowflake snowflake = IdUtil.getSnowflake();
 

@@ -1,13 +1,11 @@
 package cn.seven.dailypusher.user.infrastructure.client.request;
 
+import cn.seven.dailypusher.common.base.enums.ProjectStatus;
 import cn.seven.dailypusher.user.infrastructure.client.constants.ProjectConstant;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Data
@@ -18,7 +16,6 @@ public class ProjectRequest {
     // 项目名称
     @NotBlank
     String projectName;
-
 
     // 项目部门
     @NotBlank
@@ -43,29 +40,41 @@ public class ProjectRequest {
 
     // 项目状态 0-未开始 1-进行中 2-已结束
     @NotNull
-    Integer status;
+    ProjectStatus status;
 
     // 项目任务总数
     @NotNull
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     Integer taskCount;
 
     // 已解决任务数
     @NotNull
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     Integer solvedTaskCount;
 
     // 需求总数
     @NotNull
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     Integer demandCount;
 
     // 需求解决数
     @NotNull
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     Integer solvedDemandCount;
 
     // 缺陷总数
     @NotNull
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     Integer bugCount;
 
     // 缺陷解决数
     @NotNull
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     Integer solvedBugCount;
 }
