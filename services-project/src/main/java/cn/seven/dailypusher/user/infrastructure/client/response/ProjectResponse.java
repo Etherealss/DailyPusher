@@ -42,7 +42,7 @@ public class ProjectResponse {
     Integer solvedTaskCount;
 
     // 交付达成率 0-100 solutionCount/taskCount
-    Integer deliveryRate;
+    Double deliveryRate;
 
     // 需求总数
     Integer demandCount;
@@ -51,7 +51,7 @@ public class ProjectResponse {
     Integer solvedDemandCount;
 
     // 需求达成率 0-100 solvedDemandCount/demandCount
-    Integer demandRate;
+    Double demandRate;
 
     // 缺陷总数
     Integer bugCount;
@@ -60,7 +60,7 @@ public class ProjectResponse {
     Integer solvedBugCount;
 
     // 缺陷达成率 0-100 solvedBugCount/bugCount
-    Integer bugRate;
+    Double bugRate;
 
     //  项目进度 0-100 加权平均 progress = (deliveryRate * 0.5 + demandRate * 0.3 + bugRate * 0.2)
     Double progress;
