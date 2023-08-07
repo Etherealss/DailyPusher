@@ -6,6 +6,8 @@ import cn.seven.dailypusher.user.infrastructure.client.response.ProjectResponse;
 import cn.seven.dailypusher.user.infrastructure.convert.IProjectConverter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 
 @Component
@@ -61,14 +63,21 @@ public class ProjectConvertImpl implements IProjectConverter {
         projectResponse.setSolvedBugCount( entity.getSolvedBugCount() );
         projectResponse.setPhone( entity.getPhone() );
 
+
+        double deliveryRate =BigDecimal.valueOf(((double) projectResponse.getSolvedTaskCount() / projectResponse.getTaskCount()) * 100).setScale(2, RoundingMode.HALF_UP).doubleValue();;
+        double demandRate = BigDecimal.valueOf(((double)projectResponse.getSolvedDemandCount()/ projectResponse.getDemandCount())*100).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        double bugRate = BigDecimal.valueOf(((double)projectResponse.getSolvedBugCount()/ projectResponse.getBugCount())*100).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+
+
         // 计算并设置交付达成率
-        projectResponse.setDeliveryRate(projectResponse.getSolvedTaskCount()/ projectResponse.getTaskCount());
+        projectResponse.setDeliveryRate(deliveryRate);
 
         // 计算并设置需求达成率
-        projectResponse.setDemandRate(projectResponse.getSolvedDemandCount()/ projectResponse.getDemandCount());
+        projectResponse.setDemandRate(demandRate);
 
         // 计算并设置缺陷达成率
-        projectResponse.setBugRate(projectResponse.getSolvedBugCount()/ projectResponse.getBugCount());
+        projectResponse.setBugRate(bugRate);
 
         // 计算并设置任务进度
         projectResponse.setProgress(0.5* projectResponse.getDeliveryRate()+0.3* projectResponse.getDemandRate()+0.2* projectResponse.getBugRate());
