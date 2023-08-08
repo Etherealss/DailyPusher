@@ -74,7 +74,10 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
 
     public void checkCount(ProjectEntity entity) {
         // 已解决的数量<=总数量
-        if (entity.getSolvedDemandCount() > entity.getDemandCount() || entity.getSolvedBugCount() > entity.getBugCount() || entity.getSolvedTaskCount() > entity.getTaskCount() || entity.getStartDate().after(entity.getEndDate())) {
+        if (entity.getSolvedDemandCount() > entity.getDemandCount()
+                || entity.getSolvedBugCount() > entity.getBugCount()
+                || entity.getSolvedTaskCount() > entity.getTaskCount()
+                || entity.getStartDate().after(entity.getEndDate())) {
             throw new ParamErrorException();
         }
     }
@@ -86,7 +89,11 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
         checkNameDuplicate(entity);
         checkCount(entity);
         this.save(entity);
-        return this.lambdaQuery().eq(ProjectEntity::getProjectName, entity.getProjectName()).oneOpt().get().getId();
+        return this.lambdaQuery()
+                .eq(ProjectEntity::getProjectName, entity.getProjectName())
+                .oneOpt()
+                .get()
+                .getId();
     }
 
     @Transactional(rollbackFor = Exception.class)

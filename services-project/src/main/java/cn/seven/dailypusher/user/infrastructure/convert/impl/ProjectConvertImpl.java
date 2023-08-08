@@ -59,10 +59,14 @@ public class ProjectConvertImpl implements IProjectConverter {
         projectResponse.setPhone(entity.getPhone());
 
 
-        double deliveryRate = BigDecimal.valueOf(((double) projectResponse.getSolvedTaskCount() / projectResponse.getTaskCount()) * 100).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        ;
-        double demandRate = BigDecimal.valueOf(((double) projectResponse.getSolvedDemandCount() / projectResponse.getDemandCount()) * 100).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        double bugRate = BigDecimal.valueOf(((double) projectResponse.getSolvedBugCount() / projectResponse.getBugCount()) * 100).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        // 除数不能为0
+        double deliveryRate =
+                projectResponse.getTaskCount() != 0 ? BigDecimal.valueOf(((double) projectResponse.getSolvedTaskCount() / projectResponse.getTaskCount()) * 100).setScale(2, RoundingMode.HALF_UP).doubleValue() : 0;
+        double demandRate =
+                projectResponse.getDemandCount() != 0 ? BigDecimal.valueOf(((double) projectResponse.getSolvedDemandCount() / projectResponse.getDemandCount()) * 100).setScale(2, RoundingMode.HALF_UP).doubleValue() : 0;
+        double bugRate =
+                projectResponse.getBugCount() != 0 ? BigDecimal.valueOf(((double) projectResponse.getSolvedBugCount() / projectResponse.getBugCount()) * 100).setScale(2, RoundingMode.HALF_UP).doubleValue() : 0;
+
 
 
         // 计算并设置交付达成率
