@@ -22,10 +22,10 @@ public class ContentRequest {
      */
     @NotBlank
     String contentName;
+
     /**
      * 项目ID
      */
-//    @NotNull
     Long projectId;
 
     /**

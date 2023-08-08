@@ -24,11 +24,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class ProjectEntity extends IdentifiedEntity {
 
-
     // 项目名称
     @TableField(value = "project_name")
     String projectName;
-
 
     // 项目部门
     @TableField(value = "project_department")

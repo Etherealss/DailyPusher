@@ -38,6 +38,10 @@
             <groupId>cn.seven</groupId>
             <artifactId>services-weather</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.seven</groupId>
+            <artifactId>services-project</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

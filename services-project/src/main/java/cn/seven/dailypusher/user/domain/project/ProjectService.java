@@ -85,15 +85,10 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
     // 开启事务
     @Transactional(rollbackFor = Exception.class)
     public long create(ProjectEntity entity) {
-//        Long id = entity.getId();
         checkNameDuplicate(entity);
         checkCount(entity);
         this.save(entity);
-        return this.lambdaQuery()
-                .eq(ProjectEntity::getProjectName, entity.getProjectName())
-                .oneOpt()
-                .get()
-                .getId();
+        return entity.getId();
     }
 
     @Transactional(rollbackFor = Exception.class)

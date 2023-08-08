@@ -11,6 +11,7 @@ import cn.seven.dailypusher.daily.infrastructure.client.response.ContentResponse
 import cn.seven.dailypusher.daily.infrastructure.client.response.ContentScheduleResponse;
 import cn.seven.dailypusher.daily.infrastructure.converter.ContentConverter;
 import cn.seven.dailypusher.daily.infrastructure.utils.CronUtil;
+import cn.seven.dailypusher.user.domain.project.ProjectService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +36,13 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
     private final ContentScheduleService contentScheduleService;
     private final ContentArrangementService contentArrangementService;
     private final ContentPushService contentPushService;
+    private final ProjectService projectService;
 
     @Transactional(rollbackFor = Exception.class)
     public Long create(ContentRequest contentRequest) {
+        if (contentRequest.getProjectId() != null) {
+            checkProjectExist(contentRequest.getProjectId());
+        }
         ContentEntity entity = contentConverter.toEntity(contentRequest);
         this.save(entity);
         Long contentId = entity.getId();
@@ -48,8 +53,16 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
         return contentId;
     }
 
+    private void checkProjectExist(Long projectId) {
+        projectService.getById(projectId);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public void update(Long contentId, ContentRequest contentRequest) {
+        checkContentExist(contentId);
+        if (contentRequest.getProjectId() != null) {
+            checkProjectExist(contentRequest.getProjectId());
+        }
         ContentEntity entity = contentConverter.toEntity(contentRequest);
         entity.setId(contentId);
         this.lambdaUpdate()
