@@ -40,18 +40,19 @@ create table user
     modify_time datetime    not null
 );
 
+
 drop table project;
 
 create table if not exists project
 (
     id                           bigint       not null
-        primary key,
+    primary key,
     project_name       varchar(255) not null,
     project_department varchar(255) not null,
     project_leader     varchar(255) not null,
     phone     varchar(255) not null,
-    start_date         date         not null,
-    end_date           date         not null,
+    start_date         datetime         not null,
+    end_date           datetime         not null,
     status             int          not null,
     task_count         int          not null,
     solve_task_count   int          not null,
@@ -63,6 +64,6 @@ create table if not exists project
     create_time datetime    not null,
     modify_time datetime    not null,
     constraint project_name
-        unique (project_name)
-)
+    unique (project_name)
+    )
     collate = utf8mb4_unicode_ci;
