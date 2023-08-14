@@ -12,6 +12,7 @@ import cn.seven.dailypusher.daily.infrastructure.client.response.ContentSchedule
 import cn.seven.dailypusher.daily.infrastructure.converter.ContentConverter;
 import cn.seven.dailypusher.daily.infrastructure.utils.CronUtil;
 import cn.seven.dailypusher.user.domain.project.ProjectService;
+import cn.seven.dailypusher.user.infrastructure.client.response.ProjectResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -134,9 +135,13 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
     }
 
     public void pushContent(Long contentId) {
-        ContentResponse contentResponse = this.getById(contentId);
-        String contentTxt = contentArrangementService.arrangement(contentResponse);
+        ContentResponse content = this.getById(contentId);
+        ProjectResponse project = null;
+        if (content.getProjectId() != null) {
+            project = projectService.getById(content.getProjectId());
+        }
+        String contentTxt = contentArrangementService.arrangement(content, project);
         log.debug("推送内容：{}。内容文本：{}", contentId, contentTxt);
-        contentPushService.push(contentResponse.getEnterpriseWeChatHookKeys(), contentTxt);
+        contentPushService.push(content.getEnterpriseWeChatHookKeys(), contentTxt);
     }
 }

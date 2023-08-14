@@ -21,7 +21,6 @@ public class NoScheduleStategy implements ScheduleStategy {
 
     @Override
     public void cacelOldJob(ContentScheduleParam contentScheduleParam) {
-        throw new UnsupportedOperationException("ScheduleType.NO_SCHEDULE 不支持取消定时任务。contentScheduleParam:" + contentScheduleParam.toString());
     }
 
     @Override

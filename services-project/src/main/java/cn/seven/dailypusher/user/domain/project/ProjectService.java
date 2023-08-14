@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,14 +31,55 @@ public class ProjectService extends ServiceImpl<ProjectRepository, ProjectEntity
                 .page(new Page<>(currentPage, size));
         List<ProjectResponse> collect = page.getRecords().stream()
                 .map(projectConverter::toResponse)
+                .peek(this::calculate)
                 .collect(Collectors.toList());
         return new PageDTO<>(collect, page);
     }
 
+    private void calculate(ProjectResponse projectResponse) {
+        // 除数不能为0
+        // 计算并设置交付达成率
+        if (projectResponse.getTaskCount() == 0) {
+            projectResponse.setDeliveryRate(0.0);
+        } else {
+            double deliveryRate = ((double) projectResponse.getSolvedTaskCount() / projectResponse.getTaskCount()) * 100;
+            projectResponse.setDeliveryRate(setScacle2(deliveryRate));
+        }
+
+        // 计算并设置需求达成率
+        if (projectResponse.getDemandCount() == 0) {
+            projectResponse.setDemandRate(0.0);
+        } else {
+            double demandRate = ((double) projectResponse.getSolvedDemandCount() / projectResponse.getDemandCount()) * 100;
+            projectResponse.setDemandRate(setScacle2(demandRate));
+        }
+
+        // 计算并设置缺陷达成率
+        if (projectResponse.getBugCount() == 0) {
+            projectResponse.setBugRate(0.0);
+        } else {
+            double bugRate = ((double) projectResponse.getSolvedBugCount() / projectResponse.getBugCount()) * 100;
+            projectResponse.setBugRate(setScacle2(bugRate));
+        }
+
+        // 计算并设置任务进度
+        double progress = 0.5 * projectResponse.getDeliveryRate() +
+                0.3 * projectResponse.getDemandRate() +
+                0.2 * projectResponse.getBugRate();
+        projectResponse.setProgress(setScacle2(progress));
+    }
+
+    private static double setScacle2(double rate) {
+        return BigDecimal.valueOf(rate)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
 
     public ProjectResponse getById(Long id) {
         ProjectEntity contentEntity = requireEntity(id);
-        return projectConverter.toResponse(contentEntity);
+        ProjectResponse response = projectConverter.toResponse(contentEntity);
+        this.calculate(response);
+        return response;
     }
 
     private ProjectEntity requireEntity(Long id) {
