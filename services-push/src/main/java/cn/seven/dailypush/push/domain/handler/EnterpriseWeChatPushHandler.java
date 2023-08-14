@@ -19,7 +19,11 @@ public class EnterpriseWeChatPushHandler implements IPushHandler {
     @Override
     public void push(PushRequest pushRequest) {
         for (String targetKey : pushRequest.getTargetKeys()) {
-            enterpriseWeChatService.send(targetKey, pushRequest.getContent());
+            enterpriseWeChatService.send(
+                    targetKey,
+                    pushRequest.getContent(),
+                    pushRequest.getMentionedMobiles()
+            );
         }
     }
 }

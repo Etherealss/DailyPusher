@@ -17,4 +17,5 @@ import java.util.List;
 public class PushRequest {
     List<String> targetKeys;
     String content;
+    List<String> mentionedMobiles;
 }

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -142,6 +143,10 @@ public class ContentService extends ServiceImpl<ContentRepository, ContentEntity
         }
         String contentTxt = contentArrangementService.arrangement(content, project);
         log.debug("推送内容：{}。内容文本：{}", contentId, contentTxt);
-        contentPushService.push(content.getEnterpriseWeChatHookKeys(), contentTxt);
+        List<String> mentionedMobiles = new ArrayList<>(0);
+        if (project != null && StringUtils.hasText(project.getPhone())) {
+            mentionedMobiles.add(project.getPhone());
+        }
+        contentPushService.push(content.getEnterpriseWeChatHookKeys(), contentTxt, mentionedMobiles);
     }
 }

@@ -28,7 +28,8 @@ public class ContentArrangementService {
 
     public String arrangement(ContentResponse content, ProjectResponse project) {
         StringBuilder builder = new StringBuilder();
-        builder.append(content.getBriefing()).append("\n");
+        builder.append("【工作简报】\n")
+                .append(content.getBriefing()).append("\n");
         if (content.getContainWeather()) {
             appendWeather(content, builder);
         }
@@ -39,14 +40,15 @@ public class ContentArrangementService {
             appendProject(project, builder);
         }
         if (builder.lastIndexOf("\n") == builder.length() - 1) {
-            builder.deleteCharAt(builder.length() - 2);
+            builder.deleteCharAt(builder.length() - 1);
         }
         return builder.toString();
     }
 
     private void appendMotto(StringBuilder builder) {
         MottoResponse mottoResponse = mottoService.getMotto();
-        builder.append(mottoResponse.buildReport()).append("\n");
+        builder.append("【格言】\n")
+                .append(mottoResponse.buildReport()).append("\n");
     }
 
     private void appendWeather(ContentResponse content, StringBuilder builder) {
@@ -58,7 +60,8 @@ public class ContentArrangementService {
 
     private void appendProject(ProjectResponse project, StringBuilder builder) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        builder.append("项目名称：").append(project.getProjectName()).append("\n")
+        builder.append("【项目信息】\n")
+                .append("项目名称：").append(project.getProjectName()).append("\n")
                 .append("项目部门：").append(project.getProjectDepartment()).append("\n")
                 .append("项目负责人：").append(project.getProjectLeader()).append("\n")
                 .append("负责人手机号：").append(project.getPhone()).append("\n")

@@ -18,8 +18,11 @@ import java.util.List;
 public class ContentPushService {
     private final PushService pushService;
 
-    public void push(List<String> enterpriseWeChatHookKeys, String txt) {
-        PushRequest pushRequest = new PushRequest().setTargetKeys(enterpriseWeChatHookKeys).setContent(txt);
+    public void push(List<String> enterpriseWeChatHookKeys, String txt, List<String> mentionedMobiles) {
+        PushRequest pushRequest = new PushRequest()
+                .setTargetKeys(enterpriseWeChatHookKeys)
+                .setContent(txt)
+                .setMentionedMobiles(mentionedMobiles);
         pushService.push(pushRequest);
     }
 }
